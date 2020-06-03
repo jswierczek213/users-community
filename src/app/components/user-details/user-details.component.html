@@ -1,0 +1,34 @@
+<main>
+  <!-- Display loader if necessary -->
+  <app-loader *ngIf="displayLoader"></app-loader>
+
+  <!-- User's profile -->
+  <div class="container" *ngIf="user">
+    <div class="nickname"> {{ user.nickname }} </div>
+    <div class="introduction">
+      <div class="image-placeholder"></div>
+      <span>
+        {{ ((user.introduction)) ? user.introduction : 'This user have nothing to say' }}
+      </span>
+      <!--
+      <img src="../../../../../../Przykładowe obrazki/obrazek2.jpg" alt="Profile image"/>
+      -->
+    </div>
+    <div class="description">
+      <h2>My description</h2>
+      <p> {{ user.description.length > 0 ? user.description : 'No description' }} </p>
+    </div>
+    <div class="create-date">
+      <small>
+        This account was created at {{ user.createDate | date:'dd-MM-yyyy' }}
+      </small>
+    </div>
+  </div>
+
+  <!-- Display if something went wrong -->
+  <div class="no-results" *ngIf="somethingWrong">
+    <h2>We haven't found user with the given id</h2>
+    <p>(Or an error occured - try to refresh the page)</p>
+  </div>
+
+</main>

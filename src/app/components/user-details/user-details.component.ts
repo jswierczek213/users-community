@@ -1,44 +1,48 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { Subscription, TimeoutError } from 'rxjs';
-import { finalize, timeout } from 'rxjs/operators';
+import { timeout, finalize } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 
 @Component({
-  selector: 'app-all-users',
-  templateUrl: './all-users.component.html',
-  styleUrls: ['./all-users.component.scss']
+  selector: 'app-user-details',
+  templateUrl: './user-details.component.html',
+  styleUrls: ['./user-details.component.scss']
 })
-export class AllUsersComponent implements OnInit, OnDestroy {
+export class UserDetailsComponent implements OnInit, OnDestroy {
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private userService: UserService
+  ) { }
 
   subscriptions$: Subscription[] = [];
 
-  users: User[] = [];
+  user: User;
   displayLoader = false;
   somethingWrong = false;
 
   ngOnInit() {
-    this.subscriptions$.push(this.getAllUsers());
+    const userId = this.route.snapshot.params.id;
+    this.subscriptions$.push(this.getUserData(userId));
   }
 
-  getAllUsers() {
+  getUserData(id: string) {
     this.displayLoader = true;
-
-    return this.userService.getList()
+    return this.userService.getUserById(id)
     .pipe(
       timeout(7000),
       finalize(() => {
         this.displayLoader = false;
 
-        if (this.users.length === 0) {
+        if (!this.user) {
           this.somethingWrong = true;
         }
       })
     )
     .subscribe(
-      (data) => this.users = data,
+      (data) => this.user = data,
       (error) => {
         if (error instanceof TimeoutError) {
           console.error(error.message);

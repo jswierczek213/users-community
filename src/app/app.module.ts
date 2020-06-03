@@ -13,6 +13,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { AllUsersComponent } from './components/all-users/all-users.component';
 import { AboutComponent } from './components/about/about.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { UserDetailsComponent } from './components/user-details/user-details.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { LoaderComponent } from './components/loader/loader.component';
     FooterComponent,
     AllUsersComponent,
     AboutComponent,
-    LoaderComponent
+    LoaderComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,
