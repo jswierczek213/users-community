@@ -1,0 +1,75 @@
+@import '../../../assets/styles/variables.scss';
+
+.loader-container {
+  width: fit-content;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+
+  .loader {
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+
+    .black-circle, .yellow-circle {
+      display: inline-block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: auto;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation-duration: 0.7s;
+      animation-direction: alternate;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+    }
+
+    .black-circle {
+      background-color: $black;
+      z-index: 1;
+      animation-name: animateBlack;
+    }
+
+    .yellow-circle {
+      background-color: $grey;
+      z-index: 2;
+      animation-name: animateYellow;
+    }
+
+  }
+
+  span {
+    color: $black;
+    display: inline-block;
+    margin-top: 5px;
+  }
+}
+
+
+@keyframes animateYellow {
+  0% {
+    width: 30%;
+    height: 30%;
+  }
+
+  100% {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@keyframes animateBlack {
+  0% {
+    width: 100%;
+    height: 100%;
+  }
+
+  100% {
+    width: 30%;
+    height: 30%;
+  }
+}

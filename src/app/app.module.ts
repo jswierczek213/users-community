@@ -12,6 +12,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AllUsersComponent } from './components/all-users/all-users.component';
 import { AboutComponent } from './components/about/about.component';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AboutComponent } from './components/about/about.component';
     HeaderComponent,
     FooterComponent,
     AllUsersComponent,
-    AboutComponent
+    AboutComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
