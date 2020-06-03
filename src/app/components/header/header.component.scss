@@ -1,0 +1,192 @@
+@import '../../../assets/styles/variables.scss';
+
+// Default navbar (desktop)
+nav {
+  width: 100%;
+  padding: 15px;
+  background-color: $green;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $black;
+  box-shadow: 0 2px 4px $black;
+  position: relative;
+
+  @media screen and (max-width: 550px) {
+    padding: 10px 15px;
+  }
+
+  .logo {
+    font-size: 1.3em;
+    font-weight: 300;
+    color: $black;
+    user-select: none;
+    padding: 5px 10px;
+    border: 1px solid $black;
+    border-radius: 7px;
+    outline: none;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $hover;
+      transition: background-color 0.5s;
+    }
+
+    @media screen and (max-width: 550px) {
+      font-size: 1.15em;
+    }
+  }
+
+  .links-container {
+    text-decoration: none;
+
+    @media screen and (max-width: 550px) {
+      display: none;
+    }
+
+    .default-links {
+      display: inline-block;
+
+      a {
+        font-weight: 300;
+        margin: 0 10px;
+        text-decoration: none;
+        color: $black;
+
+        &:hover {
+          cursor: pointer;
+          color: $hover;
+          border-color: $hover;
+        }
+      }
+
+      .active {
+        padding-bottom: 5px;
+        border-bottom: 1px solid $black;
+      }
+    }
+
+    .account-link-container {
+      display: inline-block;
+      margin-left: 20px;
+
+      .account {
+        font-weight: 400;
+        padding: 8px 15px;
+        background-color: $important;
+        color: $white;
+        border-radius: 10px;
+        box-shadow: 1px 1px 2px $black;
+
+        &:hover {
+          background-color: $black;
+          transition: background-color 0.5s;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .menu-icon-container {
+    display: none;
+    width: fit-content;
+
+    @media screen and (max-width: 550px) {
+      display: inline-block;
+    }
+  }
+}
+
+// Navbar links for mobile devices
+.mobile-links-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $black;
+  padding: 15px;
+  text-align: center;
+  font-size: 1.3em;
+  height: 100vh;
+  z-index: 5;
+  animation-duration: 0.3s;
+
+  @media screen and (min-width: 551px) {
+    display: none;
+  }
+
+  .logo {
+    font-size: 1.3em;
+    font-weight: 300;
+    color: $important;
+    user-select: none;
+    padding: 5px 10px;
+    border: 1px solid $important;
+    border-radius: 7px;
+    margin-bottom: 10px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $white;
+      transition: background-color 0.5s;
+    }
+  }
+
+  .default-links {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
+
+    a {
+      display: inline-block;
+      font-weight: 300;
+      margin: 10px 0;
+      text-decoration: none;
+      color: $white;
+
+      &:hover {
+        cursor: pointer;
+        color: $hover;
+      }
+    }
+
+
+  }
+
+  .account-link-container {
+    display: inline-block;
+
+    .account {
+      display: inline-block;
+      font-weight: 400;
+      padding: 8px 15px;
+      background-color: $yellow;
+      color: $black;
+      border-radius: 10px;
+
+      &:hover {
+        background-color: $hover;
+        transition: background-color 0.5s;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .close-container {
+    margin-top: 25px;
+    text-align: right;
+    padding-right: 10px;
+
+    span {
+      color: $warning;
+      padding: 5px 10px;
+      font-weight: 400;
+      text-decoration: underline;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

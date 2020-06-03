@@ -9,8 +9,19 @@
 html, body {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 body {
   font-family: 'Roboto', sans-serif;
+  background-color: $white;
+  font-weight: 100;
+
+  @media (min-width: 601px) {
+    font-size: 16px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+  }
 }

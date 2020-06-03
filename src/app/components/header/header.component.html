@@ -1,0 +1,62 @@
+<!-- Default navbar (desktop) -->
+<nav>
+  <div class="logo" title="Home page" routerLink=""> Users Community </div>
+  <div class="links-container">
+    <div class="default-links">
+      <a
+        title="List of all users"
+        routerLink="/all-users"
+        routerLinkActive="active">All users</a>
+      <a
+        title="About this website"
+        routerLink="/about"
+        routerLinkActive="active">About us</a>
+    </div>
+    <div class="account-link-container">
+      <!-- If not logged in -->
+      <a class="account" title="Register or login">Log me in</a>
+      <!-- If logged in -->
+      <!-- <a *ngIf="loggedIn" class="account" [title]="user.nickname + ' details'">
+        {{ user.nickname }}
+      </a> -->
+    </div>
+  </div>
+  <div class="menu-icon-container">
+    <button mat-icon-button (click)="toggleLinks()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+</nav>
+
+<!-- Navbar links for mobile devices -->
+<div class="animate__animated mobile-links-container" *ngIf="displayLinks"
+  [ngClass]="{'animate__fadeIn': displayLinks}">
+  <div class="logo" title="Home page" routerLink="" (click)="toggleLinks()"> Users Community </div>
+  <div class="default-links">
+    <div>
+      <a
+        title="List of all users"
+        routerLink="/all-users"
+        routerLinkActive="active"
+        (click)="toggleLinks()">All users</a>
+    </div>
+    <div>
+      <a
+        title="About this website"
+        routerLink="/about"
+        routerLinkActive="active"
+        (click)="toggleLinks()">About us</a>
+    </div>
+  </div>
+  <div class="account-link-container">
+    <!-- If not logged in -->
+    <a class="account" title="Register or login">Log me in</a>
+    <!-- If logged in -->
+    <!-- <a *ngIf="loggedIn" class="account" [title]="user.nickname + ' details'">
+      {{ user.nickname }}
+    </a> -->
+  </div>
+  <div class="close-container">
+    <span (click)="toggleLinks()">Close</span>
+  </div>
+</div>
