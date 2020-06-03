@@ -1,0 +1,38 @@
+<main>
+  <h1>All users</h1>
+  <p>You can find every registered user below</p>
+
+  <!-- Loader if necessary -->
+  <app-loader *ngIf="displayLoader" ></app-loader>
+
+  <!-- Container with user list -->
+  <div class="users-container" *ngIf="users.length > 0" >
+
+    <!-- User card -->
+    <div class="item" *ngFor="let user of users" >
+      <div class="nickname">
+        <h2
+            [routerLink]="'/user/' + user._id"
+            [title]="user.nickname + ' profile'" > {{ user.nickname }} </h2>
+      </div>
+      <div class="introduction">
+        <small>Quick introduction</small>
+        <p>
+          {{ user.introduction ? user.introduction : 'This user have nothing to say...' }}
+        </p>
+      </div>
+      <div class="create-date">
+        <small>Date of registration</small>
+        <span> {{ user.createDate | date:'dd-MM-yyyy' }} </span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Display if error occured or there is nothing to display -->
+  <div class="no-results" *ngIf="somethingWrong">
+    <h2>We haven't found any registered user</h2>
+    <p>(Or an error occured)</p>
+  </div>
+
+</main>

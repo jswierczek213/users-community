@@ -1,6 +1,7 @@
 export interface User {
-  nickname: string;
-  createDate: string;
-  description: string;
   _id: string;
+  nickname: string;
+  introduction: string;
+  description: string;
+  createDate: string;
 }

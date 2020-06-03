@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { Subscription, TimeoutError } from 'rxjs';
+import { finalize, timeout } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 
 @Component({
@@ -16,19 +16,36 @@ export class AllUsersComponent implements OnInit, OnDestroy {
   subscriptions$: Subscription[] = [];
 
   users: User[] = [];
+  displayLoader = false;
+  somethingWrong = false;
 
   ngOnInit() {
-    // this.subscriptions$.push(this.getAllUsers());
+    this.subscriptions$.push(this.getAllUsers());
   }
 
   getAllUsers() {
+    this.displayLoader = true;
+
     return this.userService.getList()
+    .pipe(
+      timeout(4000),
+      finalize(() => {
+        this.displayLoader = false;
+
+        if (this.users.length === 0) {
+          this.somethingWrong = true;
+        }
+      })
+    )
     .subscribe(
-      (data) => {
-        console.log(data);
-        this.users = data;
-      },
-      (error: HttpErrorResponse) => console.error(error)
+      (data) => this.users = data,
+      (error) => {
+        if (error instanceof TimeoutError) {
+          console.error(error.message);
+        } else {
+          console.error(error);
+        }
+      }
     );
   }
 
