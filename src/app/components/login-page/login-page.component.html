@@ -1,33 +1,36 @@
 <main>
   <section class="register">
-    <form spellcheck="false" novalidate>
+    <form [formGroup]="registrationForm" spellcheck="false"
+    (submit)="submitRegistrationForm()" novalidate>
       <a class="exit" (click)="goBack()">Go back</a>
       <div class="description">
         <h2>Register</h2>
         <p>Join to our community of awesome people!</p>
       </div>
-      <div class="errors-container">
+      <div class="errors-container" *ngIf="displayRegistrationErrors">
         <h3>Check again!</h3>
         <ul>
-          <li>Nickname required!</li>
-          <li>Password required!</li>
+          <li>Nickname is required and must have at least 3 characters</li>
+          <li>Password is required and must have at least 5 characters</li>
+          <li>Passwords must be the same</li>
+          <li *ngIf="errorRegistrationOccured">Unknown error occured!</li>
         </ul>
       </div>
       <div class="form-field">
         <label>Nickname*</label>
-        <input type="text" placeholder="Your nickname" />
+        <input type="text" maxlength="15" placeholder="Your nickname" formControlName="nickname" />
       </div>
       <div class="form-field">
         <label>Password*</label>
-        <input type="password" placeholder="Your password" />
+        <input type="password" placeholder="Your password" formControlName="password" />
       </div>
       <div class="form-field">
         <label>Confirm password*</label>
-        <input type="password" placeholder="Your password" />
+        <input type="password" placeholder="Your password" formControlName="confirmPassword" />
       </div>
       <div class="form-field">
         <label>Quick introduction</label>
-        <textarea placeholder="Fan of movies!"></textarea>
+        <textarea placeholder="Fan of movies!" formControlName="introduction"></textarea>
       </div>
       <div class="btn-container">
         <button type="submit" mat-flat-button>Register</button>
@@ -35,25 +38,26 @@
     </form>
   </section>
   <section class="login">
-    <form spellcheck="false" novalidate>
+    <form [formGroup]="loginForm" spellcheck="false"
+    (submit)="submitLoginForm()" novalidate>
       <div class="description">
         <h2>Login</h2>
         <p>Come back to us!</p>
       </div>
-      <div class="errors-container">
+      <div class="errors-container" *ngIf="displayLoginErrors" >
         <h3>Check again!</h3>
         <ul>
-          <li>All fields required!</li>
-          <li>E-mail or password incorrect!</li>
+          <li *ngIf="loginForm.invalid && loginForm.touched">All fields required!</li>
+          <li *ngIf="notFound">Nickname or password incorrect!</li>
         </ul>
       </div>
       <div class="form-field">
         <label>Nickname</label>
-        <input type="text" placeholder="Your nickname" />
+        <input type="text" maxlength="15" placeholder="Your nickname" formControlName="nickname" />
       </div>
       <div class="form-field">
         <label>Password</label>
-        <input type="password" placeholder="Your password" />
+        <input type="password" placeholder="Your password" formControlName="password" />
       </div>
       <div class="btn-container">
         <button type="submit" mat-flat-button>Login</button>

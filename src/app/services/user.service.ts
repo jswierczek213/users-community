@@ -28,8 +28,8 @@ export class UserService {
   }
 
   // Register a new user
-  register(nickname: string, password: string) {
-    const data = { nickname, password };
+  register(nickname: string, password: string, introduction: string) {
+    const data = { nickname, password, introduction };
     return this.http.post(`${this.basicUrl}/register`, data);
   }
 
@@ -37,5 +37,13 @@ export class UserService {
   login(nickname: string, password: string) {
     const data = { nickname, password };
     return this.http.post(`${this.basicUrl}/login`, data);
+  }
+
+  loggedIn() {
+    if (localStorage.getItem('loggedIn') === 'true') {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

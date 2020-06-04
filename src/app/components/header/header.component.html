@@ -14,7 +14,11 @@
     </div>
     <div class="account-link-container">
       <!-- If not logged in -->
-      <a class="account" title="Register or login" routerLink="/login-page">Log me in</a>
+      <a
+      class="account"
+      title="Register or login"
+      routerLink="/login-page"
+      *ngIf="!userService.loggedIn()" >Log me in</a>
       <!-- If logged in -->
       <!-- <a *ngIf="loggedIn" class="account" [title]="user.nickname + ' details'">
         {{ user.nickname }}
