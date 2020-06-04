@@ -1,0 +1,178 @@
+@import '../../../assets/styles/variables.scss';
+
+main {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-flow: row wrap;
+
+  @media screen and (max-width: 750px) {
+    width: 100%;
+    height: 250vh;
+    position: absolute;
+  }
+
+  section {
+    height: 100vh;
+    width: 50%;
+    position: relative;
+
+    @media screen and (max-width: 750px) {
+      width: 100%;
+      height: 125vh;
+    }
+
+    form {
+      width: 70%;
+      position: absolute;
+      padding: 15px 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+
+      @media screen and (max-width: 850px) {
+        width: 90%;
+      }
+
+      @media screen and (max-width: 750px) {
+        width: 70%;
+      }
+
+      @media screen and (max-width: 500px) {
+        width: 85%;
+      }
+
+      .exit {
+        display: block;
+        width: fit-content;
+        padding: 0.6em;
+        border: 1px solid $grey;
+        border-radius: 10px;
+        margin: 0 auto;
+
+        &:hover {
+          cursor: pointer;
+          color: $hover;
+          transition: color 0.5s;
+        }
+      }
+
+      h2 {
+        margin-bottom: 10px;
+      }
+
+      p {
+        margin: 0 0 10px 0;
+      }
+
+      .errors-container {
+        display: none;
+        width: 80%;
+        margin: 10px auto;
+        padding: 0.8em;
+        background-color: $warning;
+        color: $black;
+        border-radius: 10px;
+        text-align: left;
+
+        h3 {
+          text-align: center;
+          margin: 0 0 8px 0;
+          font-weight: 400;
+        }
+
+        li {
+          font-weight: 300;
+        }
+      }
+
+      .form-field {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+
+        label {
+          display: block;
+          text-align: left;
+          margin-bottom: 7px;
+          padding-left: 10px;
+        }
+
+        input, textarea {
+          display: block;
+          width: 100%;
+          border-radius: 10px;
+          padding: 0.6em;
+          font-family: 'Roboto', sans-serif;
+          outline: none;
+          border: none;
+        }
+
+        textarea {
+          height: 75px;
+          resize: none;
+          overflow: auto;
+        }
+      }
+
+      .btn-container {
+        margin: 10px 0;
+        text-align: right;
+
+        button {
+          display: inline-block;
+          line-height: 30px;
+        }
+      }
+    }
+  }
+
+  .register {
+    background-color: $black;
+    color: $white;
+
+    input, textarea {
+      background-color: $green;
+      color: $black;
+    }
+
+    label {
+      color: $grey;
+    }
+
+    .btn-container {
+
+      button {
+        color: $black;
+        background-color: $yellow;
+      }
+    }
+  }
+
+  .login {
+    background-color: $white;
+    color: $black;
+
+    input, textarea {
+      background-color: $black;
+      color: $white;
+    }
+
+    label {
+      color: $black;
+    }
+
+    .btn-container {
+
+      button {
+        color: $white;
+        background-color: $black;
+      }
+    }
+  }
+}

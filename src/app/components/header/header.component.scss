@@ -79,13 +79,13 @@ nav {
         color: $white;
         border-radius: 10px;
         box-shadow: 1px 1px 2px $black;
+        text-decoration: none;
 
         &:hover {
           background-color: $hover;
-          transition-property: color, background-color;
+          transition-property: background-color;
           transition-duration: 0.5s;
           cursor: pointer;
-          color: $black;
         }
       }
     }
@@ -167,6 +167,7 @@ nav {
       background-color: $yellow;
       color: $black;
       border-radius: 10px;
+      text-decoration: none;
 
       &:hover {
         background-color: $hover;
