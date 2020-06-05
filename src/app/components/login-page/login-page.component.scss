@@ -12,8 +12,9 @@ main {
 
   @media screen and (max-width: 750px) {
     width: 100%;
-    height: 250vh;
-    position: absolute;
+    height: fit-content;
+    position: static;
+    display: block;
   }
 
   section {
@@ -23,7 +24,9 @@ main {
 
     @media screen and (max-width: 750px) {
       width: 100%;
-      height: 125vh;
+      height: fit-content;
+      position: static;
+      display: block;
     }
 
     form {
@@ -41,6 +44,9 @@ main {
 
       @media screen and (max-width: 750px) {
         width: 70%;
+        position: static;
+        transform: translate(0, 0);
+        margin: 0 auto;
       }
 
       @media screen and (max-width: 500px) {
@@ -59,6 +65,10 @@ main {
           cursor: pointer;
           color: $hover;
           transition: color 0.5s;
+        }
+
+        @media screen and (max-width: 750px) {
+          display: none;
         }
       }
 
@@ -174,4 +184,13 @@ main {
       }
     }
   }
+}
+
+.loader-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-block;
+  width: fit-content;
 }

@@ -1,0 +1,229 @@
+@import '../../../assets/styles/variables.scss';
+
+main {
+  width: 100%;
+  padding: 1em;
+  background-color: $black;
+  color: $white;
+
+  .container {
+    display: block;
+    margin: 0 auto;
+
+    @media screen and (min-width: 0px) {
+      width: 100%;
+    }
+
+    @media screen and (min-width: 900px) {
+      width: 80%;
+    }
+
+    @media screen and (min-width: 1300px) {
+      width: 60%;
+    }
+
+    .options-container {
+      width: 100%;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-end;
+
+      button {
+        line-height: 28px;
+        margin: 0 10px;
+        transition: background-color 0.5s;
+        font-weight: 300;
+
+        @media screen and (max-width: 600px) {
+          margin: 0 5px;
+          font-size: 0.8em;
+          line-height: 25px;
+        }
+      }
+
+      .edit {
+        background-color: $yellow;
+        color: $black;
+
+        &:hover {
+          background-color: $hover;
+        }
+      }
+
+      .logout {
+        background-color: $grey;
+        color: $white;
+
+        &:hover {
+          background-color: $hover;
+        }
+      }
+    }
+
+    .nickname {
+      width: 100%;
+      padding: 10px 0;
+      margin-bottom: 10px;
+      font-size: 3em;
+      font-weight: 300;
+      color: $yellow;
+
+      @media screen and (max-width: 600px) {
+        text-align: center;
+        font-size: 2em;
+      }
+    }
+
+    .introduction {
+      width: 100%;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: left;
+      margin-bottom: 10px;
+
+      .image-placeholder {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background-color: $important;
+        margin-right: 50px;
+        margin-bottom: 10px;
+        overflow: hidden;
+
+        @media screen and (max-width: 600px) {
+          margin: 0 auto 10px auto;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      span {
+        display: inline-block;
+        max-width: calc(100% - 200px);
+        font-size: 1.4em;
+        color: $grey;
+        font-style: italic;
+        line-height: 1.5em;
+
+        @media screen and (max-width: 600px) {
+          width: 100%;
+          max-width: 100%;
+          font-size: 1.2em;
+          text-align: center;
+        }
+      }
+    }
+
+    .description {
+      width: 100%;
+      margin-bottom: 10px;
+
+      h2 {
+        color: $green;
+      }
+
+      p {
+        line-height: 1.5em;
+      }
+    }
+
+    .create-date {
+      text-align: right;
+      color: $yellow;
+    }
+  }
+
+  .edit-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    width: 50vw;
+    height: 90vh;
+    background-color: $white;
+    overflow: auto;
+    color: $black;
+    padding: 1em;
+    border-radius: 15px;
+    box-shadow: 0 0 15px $black;
+    z-index: 2;
+
+    @media screen and (max-width: 1500px) {
+      width: 70vw;
+    }
+
+    @media screen and (max-width: 1000px) {
+      width: 90vw;
+    }
+
+    .close-btn {
+      text-align: right;
+    }
+
+    h2 {
+      margin: 0;
+      text-align: center;
+    }
+
+    .form-field {
+      display: block;
+      padding: 15px 0;
+
+      label {
+        display: block;
+        width: 100%;
+        font-weight: 300;
+      }
+
+      small {
+        display: block;
+        margin-top: 5px;
+        color: $grey;
+      }
+
+      input, textarea {
+        width: 100%;
+        display: block;
+        margin-top: 10px;
+        padding: 0.8em;
+        border-radius: 10px;
+        background-color: $green;
+        color: $black;
+        border: 1px solid $black;
+        outline: none;
+        font-family: 'Roboto', sans-serif;
+      }
+
+      textarea {
+        resize: none;
+        height: 150px;
+        line-height: 1.4em;
+      }
+    }
+
+    .submit-container {
+      padding: 15px 0;
+      width: 100%;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-end;
+
+      button {
+        margin-right: 10px;
+        background-color: $grey;
+        color: $white;
+        line-height: 28px;
+        transition: background-color 0.5s;
+
+        &:hover {
+          background-color: $hover;
+        }
+      }
+    }
+  }
+
+}

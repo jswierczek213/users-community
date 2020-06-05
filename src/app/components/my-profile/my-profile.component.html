@@ -1,0 +1,60 @@
+<!-- Display loader if necessary -->
+<app-loader *ngIf="displayLoader"></app-loader>
+
+<main>
+
+  <!-- User's profile -->
+  <div class="container" *ngIf="user">
+    <div class="options-container">
+      <button class="edit" mat-flat-button (click)="toggleEditForm()">Edit profile</button>
+      <button class="logout" mat-flat-button (click)="userService.logout()">Logout</button>
+    </div>
+    <div class="nickname"> {{ user.nickname }} </div>
+    <div class="introduction">
+      <div class="image-placeholder">
+        <img src="../../../assets/images/profile-placeholder.jpg" alt="Profile image"/>
+      </div>
+      <span>
+        {{ ((user.introduction)) ? user.introduction : 'This user have nothing to say' }}
+      </span>
+    </div>
+    <div class="description">
+      <h2>My description</h2>
+      <p> {{ user.description.length > 0 ? user.description : 'No description' }} </p>
+    </div>
+    <div class="create-date">
+      <small>
+        This account was created at {{ user.createDate | date:'dd-MM-yyyy' }}
+      </small>
+    </div>
+  </div>
+
+  <!-- Edit container -->
+  <div class="edit-container" *ngIf="displayEditForm">
+    <div class="close-btn">
+      <button mat-icon-button (click)="toggleEditForm()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <h2>Edit your profile!</h2>
+
+    <form [formGroup]="editForm" spellcheck="false" novalidate (submit)="submit()">
+      <div class="form-field">
+        <label>Quick introduction</label>
+        <small>Say something about you in a few words</small>
+        <input type="text" maxlength="100" formControlName="introduction"
+        placeholder="Empty..." />
+      </div>
+      <div class="form-field">
+        <label>Description</label>
+        <textarea maxlength="255" formControlName="description" placeholder="Empty...">
+        </textarea>
+      </div>
+      <div class="submit-container">
+        <button type="submit" mat-flat-button>Update</button>
+      </div>
+    </form>
+  </div>
+
+</main>

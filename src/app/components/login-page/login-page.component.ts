@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-page',
@@ -25,6 +26,7 @@ export class LoginPageComponent implements OnInit {
   displayRegistrationErrors = false;
 
   notFound = false;
+  displayLoader = false;
 
   errorLoginOccured = false;
   errorRegistrationOccured = false;
@@ -32,6 +34,10 @@ export class LoginPageComponent implements OnInit {
   ngOnInit() {
     this.buildRegistrationForm();
     this.buildLoginForm();
+
+    if (this.userService.currentUserValue()) {
+      this.router.navigate(['/all-users']);
+    }
   }
 
   buildRegistrationForm() {
@@ -55,10 +61,7 @@ export class LoginPageComponent implements OnInit {
       return this.displayRegistrationErrors = true;
     }
 
-    interface Response {
-      userData?: User;
-      loggedIn: boolean;
-    }
+    this.displayLoader = true;
 
     const nickname = this.registrationForm.value.nickname.trim();
     const password = this.registrationForm.value.password.trim();
@@ -70,11 +73,13 @@ export class LoginPageComponent implements OnInit {
     }
 
     this.userService.register(nickname, password, introduction)
+    .pipe(
+      finalize(() => this.displayLoader = false)
+    )
     .subscribe(
-      (result: Response) => {
-        localStorage.setItem('loggedIn', result.loggedIn.toString());
-        localStorage.setItem('myId', result.userData._id);
-        localStorage.setItem('myNickname', result.userData.nickname);
+      (result) => {
+        localStorage.setItem('user', JSON.stringify(result));
+        this.userService.updateUserValue();
         this.router.navigate(['/all-users']);
       },
       (error) => {
@@ -90,21 +95,20 @@ export class LoginPageComponent implements OnInit {
       return this.displayLoginErrors = true;
     }
 
-    interface Response {
-      userData?: User;
-      loggedIn: boolean;
-    }
+    this.displayLoader = true;
 
     const nickname = this.loginForm.value.nickname.trim();
     const password = this.loginForm.value.password.trim();
 
     this.userService.login(nickname, password)
+    .pipe(
+      finalize(() => this.displayLoader = false)
+    )
     .subscribe(
       (result: Response) => {
-        if (result.loggedIn) {
-          localStorage.setItem('loggedIn', result.loggedIn.toString());
-          localStorage.setItem('myId', result.userData._id);
-          localStorage.setItem('myNickname', result.userData.nickname);
+        if (result) {
+          localStorage.setItem('user', JSON.stringify(result));
+          this.userService.updateUserValue();
           this.router.navigate(['/all-users']);
         } else {
           this.loginForm.reset();

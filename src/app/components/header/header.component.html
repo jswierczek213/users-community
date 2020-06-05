@@ -13,16 +13,26 @@
         routerLinkActive="active">About us</a>
     </div>
     <div class="account-link-container">
+
       <!-- If not logged in -->
       <a
       class="account"
       title="Register or login"
       routerLink="/login-page"
-      *ngIf="!userService.loggedIn()" >Log me in</a>
+      *ngIf="!user">
+        Log me in
+      </a>
+
       <!-- If logged in -->
-      <!-- <a *ngIf="loggedIn" class="account" [title]="user.nickname + ' details'">
-        {{ user.nickname }}
-      </a> -->
+      <a
+      *ngIf="user"
+      class="account logged"
+      [title]="user.nickname + ' details'"
+      routerLink="/my-profile"
+      routerLinkActive="active">
+        My profile
+      </a>
+
     </div>
   </div>
   <div class="menu-icon-container">
@@ -53,12 +63,21 @@
     </div>
   </div>
   <div class="account-link-container">
+
     <!-- If not logged in -->
-    <a class="account" title="Register or login" routerLink="/login-page">Log me in</a>
+    <a *ngIf="!user"  class="account" title="Register or login" routerLink="/login-page">Log me in</a>
+
     <!-- If logged in -->
-    <!-- <a *ngIf="loggedIn" class="account" [title]="user.nickname + ' details'">
-      {{ user.nickname }}
-    </a> -->
+    <a
+    *ngIf="user"
+    class="account logged"
+    [title]="user.nickname + ' details'"
+    routerLink="/my-profile"
+    routerLinkActive="active"
+    (click)="toggleLinks()">
+      My profile
+    </a>
+
   </div>
   <div class="close-container">
     <span (click)="toggleLinks()">Close</span>

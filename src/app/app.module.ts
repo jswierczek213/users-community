@@ -16,6 +16,7 @@ import { AboutComponent } from './components/about/about.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
+import { MyProfileComponent } from './components/my-profile/my-profile.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { LoginPageComponent } from './components/login-page/login-page.component
     AboutComponent,
     LoaderComponent,
     UserDetailsComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    MyProfileComponent
   ],
   imports: [
     BrowserModule,

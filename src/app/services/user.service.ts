@@ -1,16 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
 
   basicUrl = 'http://localhost:3500/api';
+
+  private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
 
   // Get list of all registered users
   getList(): Observable<User[]> {
@@ -20,6 +30,11 @@ export class UserService {
   // Get data of specified user
   getUserById(id: string): Observable<User> {
     return this.http.get<User>(`${this.basicUrl}/users/${id}`);
+  }
+
+  // Patch user data
+  editUserData(id: string, value: any) {
+    return this.http.patch(`${this.basicUrl}/users/${id}`, value);
   }
 
   // Remove specified user
@@ -39,11 +54,18 @@ export class UserService {
     return this.http.post(`${this.basicUrl}/login`, data);
   }
 
-  loggedIn() {
-    if (localStorage.getItem('loggedIn') === 'true') {
-      return true;
-    } else {
-      return false;
-    }
+  // Logout current user
+  logout() {
+    localStorage.removeItem('user');
+    this.currentUserSubject.next(null);
+    this.router.navigate(['/all-users']);
+  }
+
+  public currentUserValue(): User {
+    return this.currentUserSubject.value;
+  }
+
+  public updateUserValue() {
+    this.currentUserSubject.next(JSON.parse(localStorage.getItem('user')));
   }
 }

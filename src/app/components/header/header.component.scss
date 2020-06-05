@@ -26,11 +26,11 @@ nav {
     border: 1px solid $black;
     border-radius: 7px;
     outline: none;
+    transition: background-color 0.5s;
 
     &:hover {
       cursor: pointer;
       background-color: $hover;
-      transition: background-color 0.5s;
     }
 
     @media screen and (max-width: 550px) {
@@ -85,6 +85,28 @@ nav {
           background-color: $hover;
           transition-property: background-color;
           transition-duration: 0.5s;
+          cursor: pointer;
+        }
+      }
+
+      .active {
+        padding-bottom: 5px;
+        border-bottom: 1px solid $black;
+      }
+
+      .logged {
+        border-radius: 0;
+        border: none;
+        padding: 0;
+        background-color: inherit;
+        box-shadow: none;
+        color: $black;
+
+        &:hover {
+          background-color: inherit;
+          transition-property: color;
+          transition-duration: 0.5s;
+          color: $hover;
           cursor: pointer;
         }
       }
@@ -172,6 +194,23 @@ nav {
       &:hover {
         background-color: $hover;
         transition: background-color 0.5s;
+        cursor: pointer;
+      }
+    }
+
+    .logged {
+      border-radius: 0;
+      border: none;
+      padding: 0;
+      background-color: inherit;
+      box-shadow: none;
+      color: $yellow;
+
+      &:hover {
+        background-color: inherit;
+        transition-property: color;
+        transition-duration: 0.5s;
+        color: $hover;
         cursor: pointer;
       }
     }
