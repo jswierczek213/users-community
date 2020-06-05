@@ -6,13 +6,12 @@
   <div class="container" *ngIf="user">
     <div class="nickname"> {{ user.nickname }} </div>
     <div class="introduction">
-      <div class="image-placeholder"></div>
+      <div class="image-placeholder">
+        <img src="/assets/images/profile-placeholder.jpg" alt="Profile image"/>
+      </div>
       <span>
         {{ ((user.introduction)) ? user.introduction : 'This user have nothing to say' }}
       </span>
-      <!--
-      <img src="../../../../../../Przykładowe obrazki/obrazek2.jpg" alt="Profile image"/>
-      -->
     </div>
     <div class="description">
       <h2>My description</h2>
