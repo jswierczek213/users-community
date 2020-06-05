@@ -3,7 +3,6 @@
 .loader-container {
   width: fit-content;
   display: block;
-  margin: 0 auto;
   text-align: center;
   position: fixed;
   top: 50%;
@@ -11,73 +10,132 @@
   transform: translate(-50%, -50%);
   z-index: 10;
 
-  .loader {
-    display: block;
-    width: 50px;
-    height: 50px;
-    margin: 0 auto;
+  .circle-container {
     position: relative;
-    text-align: center;
+    width: 100px;
+    height: 100px;
 
-    .black-circle, .yellow-circle {
-      display: inline-block;
+    div {
+      background-color: #e07b00;
+      width: 20px;
+      height: 20px;
       position: absolute;
-      top: 50%;
-      left: 50%;
-      margin: auto;
       border-radius: 50%;
-      transform: translate(-50%, -50%);
-      animation-duration: 0.7s;
-      animation-direction: alternate;
-      animation-iteration-count: infinite;
-      animation-timing-function: ease-in-out;
     }
 
-    .black-circle {
-      background-color: $yellow;
-      z-index: 1;
-      animation-name: animateBlack;
+    .circle1 {
+      top: 50%;
+      left: 0%;
+      animation: moveCircle1 1.5s ease-in-out infinite;
     }
 
-    .yellow-circle {
-      background-color: $grey;
-      z-index: 2;
-      animation-name: animateYellow;
+    .circle2 {
+      top: 0%;
+      left: 50%;
+      animation: moveCircle2 1.5s ease-in-out infinite;
     }
 
+    .circle3 {
+      top: 50%;
+      left: 100%;
+      animation: moveCircle3 1.5s ease-in-out infinite;
+    }
+
+    .circle4 {
+      top: 100%;
+      left: 0%;
+      animation: moveCircle4 1.5s ease-in-out infinite;
+    }
   }
 
-  span {
-    color: $black;
-    display: inline-block;
-    margin-top: 5px;
-    padding: 5px 10px;
-    background-color: $yellow;
-    border-radius: 5px;
-  }
+
 }
 
-
-@keyframes animateYellow {
+@keyframes moveCircle1 {
   0% {
-    width: 30%;
-    height: 30%;
+    top: 50%;
+    left: 0%;
   }
-
+  25% {
+    top: 0%;
+    left: 50%;
+  }
+  50% {
+    top: 50%;
+    left: 100%;
+  }
+  75% {
+    top: 100%;
+    left: 50%;
+  }
   100% {
-    width: 100%;
-    height: 100%;
+    top: 50%;
+    left: 0%;
   }
 }
-
-@keyframes animateBlack {
+@keyframes moveCircle2 {
   0% {
-    width: 100%;
-    height: 100%;
+    top: 0%;
+    left: 50%;
   }
-
+  25% {
+    top: 50%;
+    left: 100%;
+  }
+  50% {
+    top: 100%;
+    left: 50%;
+  }
+  75% {
+    top: 50%;
+    left: 0%;
+  }
   100% {
-    width: 30%;
-    height: 30%;
+    top: 0%;
+    left: 50%;
+  }
+}
+@keyframes moveCircle3 {
+  0% {
+    top: 50%;
+    left: 100%;
+  }
+  25% {
+    top: 100%;
+    left: 50%;
+  }
+  50% {
+    top: 50%;
+    left: 0%;
+  }
+  75% {
+    top: 0%;
+    left: 50%;
+  }
+  100% {
+    top: 50%;
+    left: 100%;
+  }
+}
+@keyframes moveCircle4 {
+  0% {
+    top: 100%;
+    left: 50%;
+  }
+  25% {
+    top: 50%;
+    left: 0%;
+  }
+  50% {
+    top: 0%;
+    left: 50%;
+  }
+  75% {
+    top: 50%;
+    left: 100%;
+  }
+  100% {
+    top: 100%;
+    left: 50%;
   }
 }

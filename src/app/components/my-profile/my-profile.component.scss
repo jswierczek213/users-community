@@ -224,6 +224,45 @@ main {
         }
       }
     }
+
+    .delete-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+
+      button {
+        color: $black;
+        background-color: $warning;
+        line-height: 28px;
+        font-weight: 400;
+        transition: background-color 0.5s;
+
+        &:hover {
+          background-color: $hover;
+        }
+      }
+
+      .confirm {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        text-align: left;
+
+        a {
+          text-decoration: underline;
+          color: $warning;
+          transition: color 0.5s;
+          cursor: pointer;
+          font-size: 0.8em;
+          font-weight: 400;
+
+          &:hover {
+            color: $hover;
+          }
+        }
+      }
+    }
+
   }
 
 }

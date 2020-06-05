@@ -4,11 +4,12 @@ import { Component } from '@angular/core';
   selector: 'app-loader',
   template: `
               <div class="loader-container">
-                <div class="loader">
-                  <div class="yellow-circle"></div>
-                  <div class="black-circle"></div>
+                <div class="circle-container">
+                  <div class="circle1"></div>
+                  <div class="circle2"></div>
+                  <div class="circle3"></div>
+                  <div class="circle4"></div>
                 </div>
-                <span>Loading</span>
               </div>
             `,
   styleUrls: ['./loader.component.scss']

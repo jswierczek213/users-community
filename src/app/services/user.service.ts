@@ -17,7 +17,7 @@ export class UserService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  basicUrl = 'http://localhost:3500/api';
+  basicUrl = 'https://users-community.herokuapp.com/api';
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;

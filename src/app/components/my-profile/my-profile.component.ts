@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
+import { finalize, timeout } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-profile',
@@ -13,7 +14,8 @@ export class MyProfileComponent implements OnInit {
 
   constructor(
     public userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) { }
 
   user: User;
@@ -21,6 +23,7 @@ export class MyProfileComponent implements OnInit {
   editForm: FormGroup;
   displayEditForm = false;
   displayLoader = false;
+  displayConfirm = false;
 
   ngOnInit() {
     this.user = this.userService.currentUserValue();
@@ -38,6 +41,10 @@ export class MyProfileComponent implements OnInit {
     this.displayEditForm = !this.displayEditForm;
   }
 
+  showConfirm() {
+    this.displayConfirm = true;
+  }
+
   submit() {
     if (this.editForm.invalid) {
       return;
@@ -52,6 +59,7 @@ export class MyProfileComponent implements OnInit {
 
     this.userService.editUserData(this.user._id, values)
     .pipe(
+      timeout(7000),
       finalize(() => {
         this.displayLoader = false;
         this.toggleEditForm();
@@ -66,6 +74,24 @@ export class MyProfileComponent implements OnInit {
         this.userService.updateUserValue();
       },
       (error) => console.error(error)
+    );
+  }
+
+  deleteAccount() {
+    this.displayLoader = true;
+
+    this.userService.deleteUser(this.user._id)
+    .pipe(
+      finalize(() => this.displayLoader = false)
+    )
+    .subscribe(
+      (result) => null,
+      (error) => console.error(error),
+      () => {
+        localStorage.removeItem('user');
+        this.userService.updateUserValue();
+        this.router.navigate(['/all-users']);
+      }
     );
   }
 

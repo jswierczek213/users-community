@@ -55,6 +55,15 @@
         <button type="submit" mat-flat-button>Update</button>
       </div>
     </form>
+
+    <div class="delete-btn">
+      <button mat-flat-button (click)="showConfirm()">Delete account</button>
+      <div class="confirm" *ngIf="displayConfirm">
+        <a (click)="deleteAccount()">
+          Click this text if you confirm this action
+        </a>
+      </div>
+    </div>
   </div>
 
 </main>

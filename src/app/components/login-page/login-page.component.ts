@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user';
-import { finalize } from 'rxjs/operators';
+import { finalize, timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-page',
@@ -74,6 +72,7 @@ export class LoginPageComponent implements OnInit {
 
     this.userService.register(nickname, password, introduction)
     .pipe(
+      timeout(7000),
       finalize(() => this.displayLoader = false)
     )
     .subscribe(
