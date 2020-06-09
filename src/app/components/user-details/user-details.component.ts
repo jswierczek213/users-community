@@ -32,7 +32,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.displayLoader = true;
     return this.userService.getUserById(id)
     .pipe(
-      timeout(7000),
+      timeout(10000),
       finalize(() => {
         this.displayLoader = false;
 

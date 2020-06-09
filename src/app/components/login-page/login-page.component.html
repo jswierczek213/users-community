@@ -2,7 +2,7 @@
   <section class="register">
     <form [formGroup]="registrationForm" spellcheck="false"
     (submit)="submitRegistrationForm()" novalidate>
-      <a class="exit" (click)="goBack()">Go back</a>
+      <a class="exit" (click)="goBack()">Home page</a>
       <div class="description">
         <h2>Register</h2>
         <p>Join to our community of awesome people!</p>
@@ -34,6 +34,7 @@
       </div>
       <div class="btn-container">
         <button type="submit" mat-flat-button>Register</button>
+        <p>* required fields</p>
       </div>
     </form>
   </section>

@@ -60,11 +60,11 @@ main {
         border: 1px solid $grey;
         border-radius: 10px;
         margin: 0 auto;
+        transition: color 0.5s;
+        cursor: pointer;
 
         &:hover {
-          cursor: pointer;
           color: $hover;
-          transition: color 0.5s;
         }
 
         @media screen and (max-width: 750px) {
@@ -136,6 +136,13 @@ main {
         button {
           display: inline-block;
           line-height: 30px;
+        }
+
+        p {
+          text-align: left;
+          font-size: 0.8em;
+          color: $warning;
+          letter-spacing: 1px;
         }
       }
     }

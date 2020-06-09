@@ -41,8 +41,8 @@ export class MyProfileComponent implements OnInit {
     this.displayEditForm = !this.displayEditForm;
   }
 
-  showConfirm() {
-    this.displayConfirm = true;
+  toggleConfirm() {
+    this.displayConfirm = !this.displayConfirm;
   }
 
   submit() {
@@ -59,7 +59,7 @@ export class MyProfileComponent implements OnInit {
 
     this.userService.editUserData(this.user._id, values)
     .pipe(
-      timeout(7000),
+      timeout(10000),
       finalize(() => {
         this.displayLoader = false;
         this.toggleEditForm();

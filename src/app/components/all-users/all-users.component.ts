@@ -28,9 +28,10 @@ export class AllUsersComponent implements OnInit, OnDestroy {
 
     return this.userService.getList()
     .pipe(
-      timeout(7000),
+      timeout(10000),
       finalize(() => {
         this.displayLoader = false;
+        this.sortByRegistrationDate('DESC');
 
         if (this.users.length === 0) {
           this.somethingWrong = true;
@@ -47,6 +48,20 @@ export class AllUsersComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  sortByRegistrationDate(method: string) {
+    if ((method !== 'ASC') && (method !== 'DESC')) {
+      return;
+    }
+
+    if (method === 'ASC') {
+      this.users.sort((a: User, b: User) => new Date(a.createDate).getTime() - new Date(b.createDate).getTime());
+    }
+
+    if (method === 'DESC') {
+      this.users.sort((a: User, b: User) => new Date(b.createDate).getTime() - new Date(a.createDate).getTime());
+    }
   }
 
   ngOnDestroy() {

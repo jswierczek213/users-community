@@ -72,7 +72,7 @@ export class LoginPageComponent implements OnInit {
 
     this.userService.register(nickname, password, introduction)
     .pipe(
-      timeout(7000),
+      timeout(10000),
       finalize(() => this.displayLoader = false)
     )
     .subscribe(
@@ -101,6 +101,7 @@ export class LoginPageComponent implements OnInit {
 
     this.userService.login(nickname, password)
     .pipe(
+      timeout(10000),
       finalize(() => this.displayLoader = false)
     )
     .subscribe(
@@ -125,7 +126,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/all-users']);
+    this.router.navigate(['/home']);
   }
 
 }

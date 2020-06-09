@@ -4,13 +4,13 @@
   <div class="links-container">
     <div class="default-links">
       <a
+        title="About this website"
+        routerLink="/home"
+        routerLinkActive="active">Home</a>
+      <a
         title="List of all users"
         routerLink="/all-users"
         routerLinkActive="active">All users</a>
-      <a
-        title="About this website"
-        routerLink="/about"
-        routerLinkActive="active">About us</a>
     </div>
     <div class="account-link-container">
 
@@ -24,18 +24,22 @@
       </a>
 
       <!-- If logged in -->
-      <a
-      *ngIf="user"
-      class="account logged"
-      [title]="user.nickname + ' details'"
-      routerLink="/my-profile"
-      routerLinkActive="active">
-        My profile
-      </a>
+      <button mat-icon-button
+          *ngIf="user"
+          [title]="user.nickname + ' account'"
+          routerLink="/my-profile">
+        <mat-icon>account_circle</mat-icon>
+      </button>
 
     </div>
   </div>
-  <div class="menu-icon-container">
+  <div class="icon-container">
+    <button mat-icon-button
+        *ngIf="user"
+        [title]="user.nickname + ' account'"
+        routerLink="/my-profile">
+      <mat-icon>account_circle</mat-icon>
+    </button>
     <button mat-icon-button (click)="toggleLinks()">
       <mat-icon>menu</mat-icon>
     </button>
@@ -49,34 +53,24 @@
   <div class="default-links">
     <div>
       <a
+        title="About this website"
+        routerLink="/home"
+        routerLinkActive="active"
+        (click)="toggleLinks()">Home</a>
+    </div>
+    <div>
+      <a
         title="List of all users"
         routerLink="/all-users"
         routerLinkActive="active"
         (click)="toggleLinks()">All users</a>
     </div>
-    <div>
-      <a
-        title="About this website"
-        routerLink="/about"
-        routerLinkActive="active"
-        (click)="toggleLinks()">About us</a>
-    </div>
   </div>
   <div class="account-link-container">
 
     <!-- If not logged in -->
-    <a *ngIf="!user"  class="account" title="Register or login" routerLink="/login-page">Log me in</a>
-
-    <!-- If logged in -->
-    <a
-    *ngIf="user"
-    class="account logged"
-    [title]="user.nickname + ' details'"
-    routerLink="/my-profile"
-    routerLinkActive="active"
-    (click)="toggleLinks()">
-      My profile
-    </a>
+    <a *ngIf="!user"  class="account" title="Register or login"
+    routerLink="/login-page" (click)="toggleLinks()">Log me in</a>
 
   </div>
   <div class="close-container">

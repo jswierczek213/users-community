@@ -58,7 +58,7 @@ export class UserService {
   logout() {
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
-    this.router.navigate(['/all-users']);
+    this.router.navigate(['/home']);
   }
 
   public currentUserValue(): User {

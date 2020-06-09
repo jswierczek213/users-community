@@ -12,7 +12,7 @@ import { MaterialModule } from './modules/material.module';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AllUsersComponent } from './components/all-users/all-users.component';
-import { AboutComponent } from './components/about/about.component';
+import { HomeComponent } from './components/home/home.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
@@ -24,7 +24,7 @@ import { MyProfileComponent } from './components/my-profile/my-profile.component
     HeaderComponent,
     FooterComponent,
     AllUsersComponent,
-    AboutComponent,
+    HomeComponent,
     LoaderComponent,
     UserDetailsComponent,
     LoginPageComponent,

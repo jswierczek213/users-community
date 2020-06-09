@@ -57,10 +57,12 @@
     </form>
 
     <div class="delete-btn">
-      <button mat-flat-button (click)="showConfirm()">Delete account</button>
+      <button mat-flat-button (click)="toggleConfirm()">
+        {{ displayConfirm ? 'Hide' : 'Delete account' }}
+      </button>
       <div class="confirm" *ngIf="displayConfirm">
         <a (click)="deleteAccount()">
-          Click this text if you confirm this action
+          Click this text if you really want to delete your account
         </a>
       </div>
     </div>

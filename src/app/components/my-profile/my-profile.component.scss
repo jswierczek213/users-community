@@ -107,12 +107,23 @@ main {
         color: $grey;
         font-style: italic;
         line-height: 1.5em;
+        quotes: "„" "“";
 
         @media screen and (max-width: 600px) {
           width: 100%;
           max-width: 100%;
           font-size: 1.2em;
           text-align: center;
+        }
+
+        &::before {
+          content: open-quote;
+          font-size: 1.7em;
+        }
+
+        &::after {
+          content: close-quote;
+          font-size: 1.7em;
         }
       }
     }
@@ -127,6 +138,7 @@ main {
 
       p {
         line-height: 1.5em;
+        white-space: pre-line;
       }
     }
 
