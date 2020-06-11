@@ -16,6 +16,22 @@ main {
     font-weight: 300;
   }
 
+  .sort-container {
+    padding: 1em;
+
+    button {
+      background-color: $green;
+      color: $black;
+      line-height: 25px;
+      font-weight: 300;
+    }
+
+    small {
+      display: inline-block;
+      padding: 0 10px;
+    }
+  }
+
   .users-container {
     width: 100%;
     display: flex;

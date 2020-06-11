@@ -1,6 +1,16 @@
 <main>
   <h1>All users</h1>
   <p>You can find every registered user below</p>
+  <div class="sort-container">
+    <button mat-flat-button [matMenuTriggerFor]="sortMenu">Sort by</button>
+
+    <mat-menu #sortMenu="matMenu" yPosition="below" xPosition="after">
+      <button mat-menu-item (click)="sortByRegistrationDate('ASC')">Registration date (ASC)</button>
+      <button mat-menu-item (click)="sortByRegistrationDate('DESC')">Registration date (DESC)</button>
+    </mat-menu>
+
+    <small> {{ currentSortOption ? currentSortOption : 'There is nothing to sort' }} </small>
+  </div>
 
   <!-- Loader if necessary -->
   <app-loader *ngIf="displayLoader"></app-loader>

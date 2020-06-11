@@ -24,16 +24,19 @@ export class MyProfileComponent implements OnInit {
   displayEditForm = false;
   displayLoader = false;
   displayConfirm = false;
+  displayErrors = false;
+  serverError = false;
 
   ngOnInit() {
     this.user = this.userService.currentUserValue();
     this.buildEditForm();
+    console.log(this.editForm);
   }
 
   buildEditForm() {
     this.editForm = this.fb.group({
       introduction: [this.user.introduction, Validators.maxLength(100)],
-      description: [this.user.description, Validators.maxLength(255)]
+      description: [this.user.description, Validators.maxLength(600)]
     });
   }
 
@@ -46,7 +49,11 @@ export class MyProfileComponent implements OnInit {
   }
 
   submit() {
+    this.displayErrors = false;
+    this.serverError = false;
+
     if (this.editForm.invalid) {
+      this.displayErrors = true;
       return;
     }
 
@@ -60,10 +67,7 @@ export class MyProfileComponent implements OnInit {
     this.userService.editUserData(this.user._id, values)
     .pipe(
       timeout(10000),
-      finalize(() => {
-        this.displayLoader = false;
-        this.toggleEditForm();
-      })
+      finalize(() => this.displayLoader = false)
     )
     .subscribe(
       (data) => {
@@ -73,12 +77,14 @@ export class MyProfileComponent implements OnInit {
         localStorage.setItem('user', JSON.stringify(this.user));
         this.userService.updateUserValue();
       },
-      (error) => console.error(error)
+      (error) => this.serverError = true,
+      () => this.toggleEditForm()
     );
   }
 
   deleteAccount() {
     this.displayLoader = true;
+    this.serverError = false;
 
     this.userService.deleteUser(this.user._id)
     .pipe(
@@ -86,7 +92,7 @@ export class MyProfileComponent implements OnInit {
     )
     .subscribe(
       (result) => null,
-      (error) => console.error(error),
+      (error) => this.serverError = true,
       () => {
         localStorage.removeItem('user');
         this.userService.updateUserValue();

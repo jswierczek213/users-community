@@ -39,6 +39,15 @@
 
     <h2>Edit your profile!</h2>
 
+    <div class="errors-container" *ngIf="displayErrors" >
+      <h3>Errors</h3>
+      <ul>
+        <li *ngIf="editForm.controls.introduction.invalid">Introduction should contain max 100 characters</li>
+        <li *ngIf="editForm.controls.description.invalid">Description should contain max 600 characters</li>
+        <li *ngIf="serverError">The error occured on the server side</li>
+      </ul>
+    </div>
+
     <form [formGroup]="editForm" spellcheck="false" novalidate (submit)="submit()">
       <div class="form-field">
         <label>Quick introduction</label>
@@ -48,7 +57,7 @@
       </div>
       <div class="form-field">
         <label>Description</label>
-        <textarea maxlength="255" formControlName="description" placeholder="Empty...">
+        <textarea maxlength="600" formControlName="description" placeholder="Empty...">
         </textarea>
       </div>
       <div class="submit-container">

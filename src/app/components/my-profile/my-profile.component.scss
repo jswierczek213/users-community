@@ -42,7 +42,7 @@ main {
       }
 
       .edit {
-        background-color: $yellow;
+        background-color: $green;
         color: $black;
 
         &:hover {
@@ -179,6 +179,32 @@ main {
     h2 {
       margin: 0;
       text-align: center;
+    }
+
+    .errors-container {
+      width: 80%;
+      margin: 15px auto 0 auto;
+      padding: 15px 0;
+      color: $warning;
+
+      @media screen and (max-width: 600px) {
+        width: 100%;
+      }
+
+      h3 {
+        margin: 0 0 10px 0;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 30px;
+        list-style-type: square;
+
+        li {
+          padding: 5px 0;
+          font-weight: 300;
+        }
+      }
     }
 
     .form-field {
