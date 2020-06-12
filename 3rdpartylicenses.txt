@@ -89,6 +89,8 @@ THE SOFTWARE.
 
 @angular/material/icon
 
+@angular/material/menu
+
 @angular/platform-browser
 MIT
 
