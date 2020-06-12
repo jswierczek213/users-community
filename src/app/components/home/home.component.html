@@ -1,1 +1,45 @@
-<h2 style="text-align: center;">Zaloguj się aby odblokować niedostępne teraz funkcje</h2>
+<!-- Display loader if necessary -->
+<app-loader *ngIf="displayLoader"></app-loader>
+
+<!-- Main content -->
+<main>
+  <section class="about">
+
+    <h2>About this website</h2>
+
+  </section>
+  <section class="posts" *ngIf="posts.length > 0">
+
+    <h2>Recent posts</h2>
+
+    <div class="post-container" *ngFor="let post of posts; let i = index" >
+      <div class="title-container">
+        <span class="title"> {{ post.title }} </span>
+        <span class="nickname"> {{ post.nickname }} </span>
+      </div>
+      <div class="content-container">
+        <p> {{ post.content }} </p>
+      </div>
+      <div class="comments-date-info">
+        <a (click)="toggleComments(i)">
+          {{ commentContainers[i].display ? 'Hide comments ' : 'Show comments ' }}
+          ({{ post.comments.length }})
+        </a>
+        <small> {{ post.date | date:'dd-MM-yyyy' }} </small>
+      </div>
+      <div class="comments-container" *ngIf="commentContainers[i].display">
+        <div class="add-comment-btn-container">
+          <button mat-flat-button>Add comment</button>
+        </div>
+        <div class="comment" *ngFor="let comment of post.comments" >
+          <div class="nickname">
+            {{ comment.nickname }}
+            <span>{{ comment.date | date:'dd-MM-yyyy HH:mm' }}</span>
+          </div>
+          <p class="comment-content"> {{ comment.content }} </p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</main>

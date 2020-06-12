@@ -2,7 +2,7 @@
   <h1>All users</h1>
   <p>You can find every registered user below</p>
   <div class="sort-container">
-    <button mat-flat-button [matMenuTriggerFor]="sortMenu">Sort by</button>
+    <button mat-flat-button [matMenuTriggerFor]="sortMenu" [disabled]="users.length === 0">Sort by</button>
 
     <mat-menu #sortMenu="matMenu" yPosition="below" xPosition="after">
       <button mat-menu-item (click)="sortByRegistrationDate('ASC')">Registration date (ASC)</button>
