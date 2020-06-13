@@ -3,19 +3,46 @@
 
 <!-- Main content -->
 <main>
-  <section class="about">
+  <section class="posts">
 
-    <h2>About this website</h2>
-
-  </section>
-  <section class="posts" *ngIf="posts.length > 0">
+    <div class="form-container" *ngIf="user">
+      <form [formGroup]="postForm" novalidate>
+        <div class="form-field">
+          <label>
+            Title
+            <span class="error" *ngIf="postForm.invalid && displayErrors">
+              should contain 3 - 20 characters {{ '(' + title.value.length + ')' }}
+            </span>
+          </label>
+          <input #title formControlName="title" maxlength="20" type="text" placeholder="Short title" />
+        </div>
+        <div class="form-field">
+          <label>
+            Post content
+            <span class="error" *ngIf="postForm.invalid && displayErrors">
+              should contain 10 - 600 characters {{ '(' + content.value.length + ')' }}
+            </span>
+          </label>
+          <textarea #content formControlName="content" maxlength="600" placeholder="Say something..."></textarea>
+        </div>
+        <div class="btn-container">
+          <button mat-flat-button (click)="addPost()">Add post</button>
+        </div>
+      </form>
+    </div>
 
     <h2>Recent posts</h2>
 
+    <!-- Post -->
     <div class="post-container" *ngFor="let post of posts; let i = index" >
       <div class="title-container">
         <span class="title"> {{ post.title }} </span>
-        <span class="nickname"> {{ post.nickname }} </span>
+        <div>
+          <span class="delete"
+          *ngIf="user && user._id === post.userId"
+          (click)="deletePost(post._id)">Delete</span>
+          <span class="nickname"> {{ post.nickname }} </span>
+        </div>
       </div>
       <div class="content-container">
         <p> {{ post.content }} </p>
@@ -28,13 +55,22 @@
         <small> {{ post.date | date:'dd-MM-yyyy' }} </small>
       </div>
       <div class="comments-container" *ngIf="commentContainers[i].display">
-        <div class="add-comment-btn-container">
-          <button mat-flat-button>Add comment</button>
+        <div class="add-comment-container" *ngIf="user">
+          <button mat-flat-button
+          (click)="addComment(post._id, user._id, comment.value, user.nickname, i); comment.value = ''">
+          Add comment
+          </button>
+          <input #comment type="text" placeholder="Your comment" />
         </div>
         <div class="comment" *ngFor="let comment of post.comments" >
           <div class="nickname">
             {{ comment.nickname }}
             <span>{{ comment.date | date:'dd-MM-yyyy HH:mm' }}</span>
+            <button mat-icon-button title="Delete comment"
+            (click)="deleteComment(post._id, comment._id, i)"
+            *ngIf="user && user._id === comment.userId">
+              <mat-icon>delete</mat-icon>
+            </button>
           </div>
           <p class="comment-content"> {{ comment.content }} </p>
         </div>

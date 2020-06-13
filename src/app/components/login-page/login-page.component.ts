@@ -109,7 +109,7 @@ export class LoginPageComponent implements OnInit {
         if (result) {
           localStorage.setItem('user', JSON.stringify(result));
           this.userService.updateUserValue();
-          this.router.navigate(['/all-users']);
+          this.router.navigate(['/home']);
         } else {
           this.loginForm.reset();
           this.registrationForm.reset();

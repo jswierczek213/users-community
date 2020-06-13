@@ -19,9 +19,14 @@ export class PostService {
     return this.http.get<Post[]>(`${this.basicUrl}/posts`);
   }
 
+  // Get all comments
+  getComments(postId: string) {
+    return this.http.get(`${this.basicUrl}/posts/${postId}/comments`);
+  }
+
   // Create post
-  createPost(id: string, nickname: string, title: string, content: string) {
-    return this.http.post(`${this.basicUrl}/posts`, { _id: id, nickname, title, content });
+  createPost(userId: string, nickname: string, title: string, content: string) {
+    return this.http.post(`${this.basicUrl}/posts`, { _id: userId, nickname, title, content });
   }
 
   // Add comment to post

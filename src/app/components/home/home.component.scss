@@ -3,18 +3,81 @@
 main {
   width: 100%;
 
-  .about, .posts {
-    padding: 1em;
-  }
-
-  .about {
-    background-color: $green;
-    color: $black;
-  }
-
   .posts {
     background-color: $black;
+    padding: 1em;
     color: $white;
+
+    h2 {
+      text-align: center;
+    }
+
+    .form-container {
+      width: 60%;
+      margin: 0 auto;
+      padding: 1em;
+
+      @media screen and (max-width: 1000px) {
+        width: 80%;
+      }
+
+      @media screen and (max-width: 600px) {
+        width: 100%;
+      }
+
+      .form-field {
+        width: 100%;
+        padding: 0.5em 0;
+
+        label {
+          display: block;
+          margin-bottom: 8px;
+          padding-left: 10px;
+
+          .error {
+            color: $warning;
+            font-weight: 300;
+            margin-left: 10px;
+            font-size: 0.85em;
+          }
+        }
+
+        input, textarea {
+          font-family: 'Roboto', sans-serif;
+          width: 100%;
+          padding: 0.5em;
+          border-radius: 10px;
+          outline: none;
+          border: none;
+          background-color: $green;
+          color: $black;
+        }
+
+        textarea {
+          resize: none;
+          height: 150px;
+        }
+      }
+
+      .btn-container {
+        width: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+
+        button {
+          line-height: 25px;
+          background-color: $green;
+          color: $black;
+          transition: background-color 0.5s;
+          font-weight: 400;
+
+          &:hover {
+            background-color: $hover;
+          }
+        }
+      }
+    }
 
     .post-container {
       width: 80%;
@@ -37,22 +100,43 @@ main {
 
 
         .title {
-          font-size: 1.5em;
+          font-size: 1.35em;
           font-weight: 300;
           color: $white;
         }
 
-        .nickname {
-          font-size: 1em;
-          font-weight: 400;
-          color: $yellow;
-          cursor: pointer;
-          transition: color 0.5s;
+        div {
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: flex-start;
+          align-items: center;
 
-          &:hover {
-            color: $hover;
+          .delete {
+            font-size: 0.75em;
+            font-weight: 400;
+            color: $warning;
+            cursor: pointer;
+            transition: color 0.5s;
+            margin-right: 10px;
+
+            &:hover {
+              color: $hover;
+            }
+          }
+
+          .nickname {
+            font-size: 1em;
+            font-weight: 400;
+            color: $yellow;
+            cursor: pointer;
+            transition: color 0.5s;
+
+            &:hover {
+              color: $hover;
+            }
           }
         }
+
       }
 
       .content-container {
@@ -101,9 +185,13 @@ main {
         padding: 0.6em 0.8em;
         background-color: $grey;
 
-        .add-comment-btn-container {
+        .add-comment-container {
+          display: flex;
           width: 100%;
           padding: 0.2em 0;
+          flex-flow: row nowrap;
+          justify-content: flex-start;
+          align-items: center;
 
           button {
             background-color: $green;
@@ -111,10 +199,20 @@ main {
             line-height: 25px;
             font-weight: 300;
             transition: background-color 0.5s;
+            margin-right: 10px;
 
             &:hover {
               background-color: $hover;
             }
+          }
+
+          input {
+            margin-left: 10px;
+            padding: 0.3em;
+            font-family: 'Roboto', sans-serif;
+            outline: none;
+            border: none;
+            border-radius: 5px;
           }
         }
 
@@ -124,13 +222,23 @@ main {
 
           .nickname {
             width: 100%;
-            text-align: left;
             color: $yellow;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
 
             span {
               color: $white;
               margin-left: 10px;
               font-size: 0.8em;
+            }
+
+            button {
+              transition: color 0.5s;
+
+              &:hover {
+                color: $hover;
+              }
             }
           }
 
