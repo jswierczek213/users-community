@@ -38,10 +38,16 @@
       <div class="title-container">
         <span class="title"> {{ post.title }} </span>
         <div>
-          <span class="delete"
+          <button mat-icon-button class="delete"
           *ngIf="user && user._id === post.userId"
-          (click)="deletePost(post._id)">Delete</span>
-          <span class="nickname"> {{ post.nickname }} </span>
+          (click)="deletePost(post._id)" title="Delete post">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <span class="nickname" title="View profile"
+          *ngIf="!user || user._id !== post.userId"
+          [routerLink]="'/user/' + post.userId">
+            {{ post.nickname }}
+          </span>
         </div>
       </div>
       <div class="content-container">
@@ -52,19 +58,17 @@
           {{ commentContainers[i].display ? 'Hide comments ' : 'Show comments ' }}
           ({{ post.comments.length }})
         </a>
-        <small> {{ post.date | date:'dd-MM-yyyy' }} </small>
+        <small> {{ post.date | date:'dd-MM-yyyy HH:mm' }} </small>
       </div>
       <div class="comments-container" *ngIf="commentContainers[i].display">
         <div class="add-comment-container" *ngIf="user">
-          <button mat-flat-button
-          (click)="addComment(post._id, user._id, comment.value, user.nickname, i); comment.value = ''">
-          Add comment
-          </button>
-          <input #comment type="text" placeholder="Your comment" />
+          <input #comment type="text" placeholder="Your comment"
+          (keyup.enter)="addComment(post._id, user._id, comment.value, user.nickname, i); comment.value = ''" />
+          <button (click)="addComment(post._id, user._id, comment.value, user.nickname, i); comment.value = ''">Add</button>
         </div>
         <div class="comment" *ngFor="let comment of post.comments" >
           <div class="nickname">
-            {{ comment.nickname }}
+            <a [routerLink]="'/user/' + comment.userId" title="View profile">{{ comment.nickname }}</a>
             <span>{{ comment.date | date:'dd-MM-yyyy HH:mm' }}</span>
             <button mat-icon-button title="Delete comment"
             (click)="deleteComment(post._id, comment._id, i)"

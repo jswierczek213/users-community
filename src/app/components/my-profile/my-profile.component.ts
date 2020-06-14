@@ -30,7 +30,6 @@ export class MyProfileComponent implements OnInit {
   ngOnInit() {
     this.user = this.userService.currentUserValue();
     this.buildEditForm();
-    console.log(this.editForm);
   }
 
   buildEditForm() {

@@ -5,6 +5,7 @@ import { finalize, timeout, map } from 'rxjs/operators';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private postService: PostService,
     private userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackbar: MatSnackBar
   ) { }
 
   user: User;
@@ -51,7 +53,11 @@ export class HomeComponent implements OnInit {
     .subscribe(
       (posts) => this.posts = posts,
       (error) => console.error(error),
-      () => this.generateIndexBooleans()
+      () => {
+        this.generateIndexBooleans();
+        this.posts
+        .sort((x: Post, y: Post) => new Date(y.date).getTime() - new Date(x.date).getTime());
+      }
     );
   }
 
@@ -99,13 +105,14 @@ export class HomeComponent implements OnInit {
       () => {
         this.loadPosts();
         this.postForm.reset();
+        this.displayNotify('Post has been created');
       }
     );
   }
 
   addComment(postId, userId, content, nickname, index) {
 
-    if ((content.length <= 2) || (content.length > 255)) {
+    if ((content.length <= 1) || (content.length > 255)) {
       return;
     }
 
@@ -117,9 +124,12 @@ export class HomeComponent implements OnInit {
       timeout(10000)
     )
     .subscribe(
-      (data) => console.log(data),
+      (data) => null,
       (error) => console.error(error),
-      () => this.loadComments(postId, index)
+      () => {
+        this.loadComments(postId, index);
+        this.displayNotify('Comment has been added');
+      }
     );
   }
 
@@ -134,7 +144,10 @@ export class HomeComponent implements OnInit {
     .subscribe(
       (result) => null,
       (error) => console.error(error),
-      () => this.loadComments(postId, index)
+      () => {
+        this.loadComments(postId, index);
+        this.displayNotify('Comment has been deleted');
+      }
     );
   }
 
@@ -149,8 +162,15 @@ export class HomeComponent implements OnInit {
     .subscribe(
       (data) => null,
       (error) => console.error(error),
-      () => this.loadPosts()
+      () => {
+        this.loadPosts();
+        this.displayNotify('Post has been deleted');
+      }
     );
+  }
+
+  displayNotify(message: string) {
+    this.snackbar.open(message, null, { duration: 1000 });
   }
 
 }
