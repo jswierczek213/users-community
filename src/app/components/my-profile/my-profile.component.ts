@@ -59,8 +59,8 @@ export class MyProfileComponent implements OnInit {
     this.displayLoader = true;
 
     const values = {
-      introduction: this.editForm.value.introduction,
-      description: this.editForm.value.description
+      introduction: this.editForm.value.introduction.trim(),
+      description: this.editForm.value.description.replace(/\n(?=\n)/g, '').trim()
     };
 
     this.userService.editUserData(this.user._id, values)

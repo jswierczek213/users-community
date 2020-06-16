@@ -97,13 +97,13 @@ main {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        border-bottom: 1px solid $grey;
 
 
         .title {
           font-size: 1.35em;
-          font-weight: 500;
+          font-weight: 300;
           color: $black;
-          font-style: italic;
         }
 
         div {
@@ -146,7 +146,7 @@ main {
         width: 100%;
         padding: 0.6em 0.8em;
         color: $black;
-        min-height: 200px;
+        height: auto;
         background-color: $white;
 
         p {
@@ -168,19 +168,46 @@ main {
         display: flex;
         flex-flow: row nowrap;
         justify-content: space-between;
+        align-items: center;
+
+        div {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          flex-flow: row nowrap;
+
+          button {
+            width: fit-content;
+            height: fit-content;
+            line-height: 24px;
+
+            .mat-icon {
+              font-size: 18px;
+            }
+          }
+
+          span {
+            padding: 0 10px 0 5px;
+
+            @media screen and (max-width: 600px) {
+              padding: 0 5px 0 0;
+            }
+          }
+
+          a {
+            text-decoration: underline;
+            color: $grey;
+            font-weight: 300;
+            letter-spacing: 1px;
+            cursor: pointer;
+            user-select: none;
+          }
+        }
 
         small {
           font-weight: 300;
         }
 
-        a {
-          text-decoration: underline;
-          color: $grey;
-          font-weight: 300;
-          letter-spacing: 1px;
-          cursor: pointer;
-          user-select: none;
-        }
       }
 
       .comments-container {

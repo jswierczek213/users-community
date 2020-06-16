@@ -24,9 +24,29 @@ export class PostService {
     return this.http.get(`${this.basicUrl}/posts/${postId}/comments`);
   }
 
+  // Get all likes
+  getLikes(postId: string) {
+    return this.http.get(`${this.basicUrl}/posts/${postId}/likes`);
+  }
+
   // Create post
   createPost(userId: string, nickname: string, title: string, content: string) {
+
+    // Ignore empty lines
+    content = content.replace(/\n(?=\n)/g, '').trim();
+
     return this.http.post(`${this.basicUrl}/posts`, { _id: userId, nickname, title, content });
+  }
+
+  // Like the post
+  like(postId: string, userId: string, nickname: string) {
+    const value = { userId, nickname };
+    return this.http.patch(`${this.basicUrl}/posts/${postId}`, value);
+  }
+
+  // Unlike the post
+  unlike(postId: string, nickname: string) {
+    return this.http.delete(`${this.basicUrl}/posts/${postId}/${nickname}`);
   }
 
   // Add comment to post

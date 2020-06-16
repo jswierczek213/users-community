@@ -1,3 +1,9 @@
+interface Like {
+  _id: string;
+  userId: string;
+  nickname: string;
+}
+
 interface Comment {
   _id: string;
   userId: string;
@@ -12,6 +18,7 @@ export interface Post {
   nickname: string;
   title: string;
   content: string;
+  likes: Array<Like>;
   comments: Array<Comment>;
   date: string;
 }

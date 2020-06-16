@@ -54,11 +54,21 @@ export class HomeComponent implements OnInit {
       (posts) => this.posts = posts,
       (error) => console.error(error),
       () => {
+        console.log(this.posts);
         this.generateIndexBooleans();
         this.posts
         .sort((x: Post, y: Post) => new Date(y.date).getTime() - new Date(x.date).getTime());
       }
     );
+  }
+
+  loadLikes(postId: string, postIndex: number) {
+    this.postService.getLikes(postId)
+    .pipe(
+      map((data: any) => data[0].likes),
+      timeout(10000)
+    )
+    .subscribe(likes => this.posts[postIndex].likes = likes);
   }
 
   loadComments(postId: string, postIndex: number) {
@@ -108,6 +118,34 @@ export class HomeComponent implements OnInit {
         this.displayNotify('Post has been created');
       }
     );
+  }
+
+  toggleLike(postId, userId, nickname, postIndex) {
+    if (this.posts[postIndex].likes.find((like: any) => like.nickname === this.user.nickname)) {
+      this.postService.unlike(postId, nickname)
+      .pipe(
+        timeout(10000)
+      )
+      .subscribe(
+        (result) => console.log(result),
+        (error) => console.error(error),
+        () => {
+          this.loadLikes(postId, postIndex);
+        }
+      );
+    } else {
+      this.postService.like(postId, userId, nickname)
+      .pipe(
+        timeout(10000)
+      )
+      .subscribe(
+        (result) => console.log(result),
+        (error) => console.error(error),
+        () => {
+          this.loadLikes(postId, postIndex);
+        }
+      );
+    }
   }
 
   addComment(postId, userId, content, nickname, index) {
