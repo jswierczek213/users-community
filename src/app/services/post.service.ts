@@ -41,12 +41,12 @@ export class PostService {
   // Like the post
   like(postId: string, userId: string, nickname: string) {
     const value = { userId, nickname };
-    return this.http.patch(`${this.basicUrl}/posts/${postId}`, value);
+    return this.http.patch(`${this.basicUrl}/posts/${postId}/like`, value);
   }
 
   // Unlike the post
   unlike(postId: string, nickname: string) {
-    return this.http.delete(`${this.basicUrl}/posts/${postId}/${nickname}`);
+    return this.http.delete(`${this.basicUrl}/posts/${postId}/${nickname}/unlike`);
   }
 
   // Add comment to post

@@ -31,6 +31,8 @@ export class HomeComponent implements OnInit {
   displayLoader = false;
   displayErrors = false;
 
+  isClicked = false;
+
   ngOnInit() {
     this.loadPosts();
 
@@ -40,6 +42,21 @@ export class HomeComponent implements OnInit {
       title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       content: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(600)]]
     });
+
+    if (this.user) {
+      this.userService.getUserById(this.user._id)
+      .pipe(
+        timeout(10000)
+      )
+      .subscribe(
+        (result) => this.user = result,
+        (error) => console.error(error),
+        () => {
+          localStorage.setItem('user', JSON.stringify(this.user));
+          this.userService.updateUserValue();
+        }
+      );
+    }
   }
 
   loadPosts() {
@@ -125,6 +142,13 @@ export class HomeComponent implements OnInit {
     }
 
     if (this.posts[postIndex].likes.find((like: any) => like.nickname === this.user.nickname)) {
+
+      if (this.isClicked) {
+        return;
+      }
+
+      this.isClicked = true;
+
       this.postService.unlike(postId, this.user.nickname)
       .pipe(
         timeout(10000)
@@ -134,6 +158,8 @@ export class HomeComponent implements OnInit {
         (error) => console.error(error),
         () => {
           this.loadLikes(postId, postIndex);
+
+          this.isClicked = false;
 
           const givenLikesCount = this.user.givenLikes - 1;
           this.userService.editUserData(this.user._id, { givenLikes: givenLikesCount })
@@ -153,6 +179,13 @@ export class HomeComponent implements OnInit {
         }
       );
     } else {
+
+      if (this.isClicked) {
+        return;
+      }
+
+      this.isClicked = true;
+
       this.postService.like(postId, this.user._id, this.user.nickname)
       .pipe(
         timeout(10000)
@@ -172,6 +205,7 @@ export class HomeComponent implements OnInit {
             (result) => null,
             (error) => console.error(error),
             () => {
+              this.isClicked = false;
               // Update local user data
               this.user.givenLikes = givenLikesCount;
               localStorage.setItem('user', JSON.stringify(this.user));
@@ -209,7 +243,7 @@ export class HomeComponent implements OnInit {
       timeout(10000)
     )
     .subscribe(
-      (data) => null,
+      (data) => console.log(data),
       (error) => console.error(error),
       () => {
         this.loadComments(postId, index);
