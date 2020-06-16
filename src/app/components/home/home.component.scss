@@ -183,6 +183,11 @@ main {
 
             .mat-icon {
               font-size: 18px;
+              transition: color 0.5s;
+            }
+
+            .liked {
+              color: $important;
             }
           }
 

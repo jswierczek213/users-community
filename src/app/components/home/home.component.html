@@ -55,8 +55,8 @@
       </div>
       <div class="comments-date-info">
         <div>
-          <button mat-icon-button (click)="toggleLike(post._id, user._id, user.nickname, i)">
-            <mat-icon>thumb_up</mat-icon>
+          <button mat-icon-button (click)="toggleLike(post._id, i)">
+            <mat-icon [class.liked]="isLiked(i)">thumb_up</mat-icon>
           </button>
           <span>({{ post.likes.length }})</span>
           <a (click)="toggleComments(i)">

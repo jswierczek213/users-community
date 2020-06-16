@@ -54,7 +54,6 @@ export class HomeComponent implements OnInit {
       (posts) => this.posts = posts,
       (error) => console.error(error),
       () => {
-        console.log(this.posts);
         this.generateIndexBooleans();
         this.posts
         .sort((x: Post, y: Post) => new Date(y.date).getTime() - new Date(x.date).getTime());
@@ -120,31 +119,79 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  toggleLike(postId, userId, nickname, postIndex) {
+  toggleLike(postId, postIndex) {
+    if (!this.user) {
+      return this.displayNotify('You need to log in!');
+    }
+
     if (this.posts[postIndex].likes.find((like: any) => like.nickname === this.user.nickname)) {
-      this.postService.unlike(postId, nickname)
+      this.postService.unlike(postId, this.user.nickname)
       .pipe(
         timeout(10000)
       )
       .subscribe(
-        (result) => console.log(result),
+        (result) => null,
         (error) => console.error(error),
         () => {
           this.loadLikes(postId, postIndex);
+
+          const givenLikesCount = this.user.givenLikes - 1;
+          this.userService.editUserData(this.user._id, { givenLikes: givenLikesCount })
+          .pipe(
+            timeout(10000)
+          )
+          .subscribe(
+            (result) => null,
+            (error) => console.error(error),
+            () => {
+              // Update local user data
+              this.user.givenLikes = givenLikesCount;
+              localStorage.setItem('user', JSON.stringify(this.user));
+              this.userService.updateUserValue();
+            }
+          );
         }
       );
     } else {
-      this.postService.like(postId, userId, nickname)
+      this.postService.like(postId, this.user._id, this.user.nickname)
       .pipe(
         timeout(10000)
       )
       .subscribe(
-        (result) => console.log(result),
+        (result) => null,
         (error) => console.error(error),
         () => {
           this.loadLikes(postId, postIndex);
+
+          const givenLikesCount = this.user.givenLikes + 1;
+          this.userService.editUserData(this.user._id, { givenLikes: givenLikesCount })
+          .pipe(
+            timeout(10000)
+          )
+          .subscribe(
+            (result) => null,
+            (error) => console.error(error),
+            () => {
+              // Update local user data
+              this.user.givenLikes = givenLikesCount;
+              localStorage.setItem('user', JSON.stringify(this.user));
+              this.userService.updateUserValue();
+            }
+          );
         }
       );
+    }
+  }
+
+  isLiked(index: number) {
+    if (!this.user) {
+      return;
+    }
+
+    if (this.posts[index].likes.find((x: any) => x.nickname === this.user.nickname)) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -167,6 +214,22 @@ export class HomeComponent implements OnInit {
       () => {
         this.loadComments(postId, index);
         this.displayNotify('Comment has been added');
+
+        const givenCommentsCount = this.user.givenComments + 1;
+        this.userService.editUserData(this.user._id, { givenComments: givenCommentsCount })
+        .pipe(
+          timeout(10000)
+        )
+        .subscribe(
+          (result) => null,
+          (error) => console.error(error),
+          () => {
+            // Update local user data
+            this.user.givenComments = givenCommentsCount;
+            localStorage.setItem('user', JSON.stringify(this.user));
+            this.userService.updateUserValue();
+          }
+        );
       }
     );
   }
@@ -185,6 +248,22 @@ export class HomeComponent implements OnInit {
       () => {
         this.loadComments(postId, index);
         this.displayNotify('Comment has been deleted');
+
+        const givenCommentsCount = this.user.givenComments - 1;
+        this.userService.editUserData(this.user._id, { givenComments: givenCommentsCount })
+        .pipe(
+          timeout(10000)
+        )
+        .subscribe(
+          (result) => null,
+          (error) => console.error(error),
+          () => {
+            // Update local user data
+            this.user.givenComments = givenCommentsCount;
+            localStorage.setItem('user', JSON.stringify(this.user));
+            this.userService.updateUserValue();
+          }
+        );
       }
     );
   }
