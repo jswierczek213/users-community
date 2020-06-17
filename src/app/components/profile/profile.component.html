@@ -39,7 +39,11 @@
   </div>
   <div class="grid-item description-container">
     <h3>Description</h3>
-    <p class="description"> {{ (user.description) ? user.description : 'No description' }} </p>
+    <p class="description">
+      {{ (user.description) ? user.description : 'No description' }}
+    </p>
+  </div>
+  <div class="grid-item date-container">
     <p class="date">
       This account was created at {{ user.createDate | date:'dd-MM-yyyy' }}
     </p>
