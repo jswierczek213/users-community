@@ -1,0 +1,323 @@
+@import '../../../assets/styles/variables.scss';
+
+.container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-auto-rows: minmax(100px, auto);
+  gap: 1em;
+  color: $white;
+
+  @media screen and (max-width: 600px) {
+    gap: 0.75em;
+  }
+
+  .grid-item {
+    background-color: $black;
+  }
+
+  .image-container {
+    grid-column: 1/2;
+    justify-self: end;
+
+    .image-placeholder {
+      width: fit-content;
+      height: auto;
+      padding: 0.75em;
+      border-radius: 50%;
+      background-color: $white;
+
+
+      .mat-icon {
+        display: block;
+        font-size: 60px;
+        width: fit-content;
+        height: auto;
+        color: $black;
+      }
+    }
+  }
+
+  .nickname-introduction-container {
+    grid-column: 2/3;
+
+    .nickname {
+      margin: 5px 0 8px 0;
+      font-size: 2.5em;
+      color: $white;
+
+      @media screen and (max-width: 600px) {
+        margin: 5px 0 5px 0;
+      }
+    }
+
+    .introduction {
+      margin: 0;
+      font-size: 1.5em;
+      color: $grey;
+
+      @media screen and (max-width: 600px) {
+        margin-bottom: 5px;
+      }
+    }
+  }
+
+  .controls-panel {
+    grid-column: 3/4;
+
+    .btn-container {
+      width: 100%;
+
+      &:first-child {
+        margin-bottom: 10px;
+      }
+
+      @media screen and (max-width: 600px) {
+        text-align: center;
+      }
+    }
+
+    .edit, .logout {
+      line-height: normal;
+      width: fit-content;
+      height: auto;
+      font-size: 1em;
+      font-weight: 400;
+      padding: 5px 10px;
+      min-width: 60px;
+      cursor: pointer;
+      transition: background-color 0.5s;
+
+      &:hover {
+        background-color: $hover;
+      }
+    }
+
+    .edit {
+      background-color: $green;
+      color: $black;
+    }
+
+    .logout {
+      background-color: $grey;
+      color: $white;
+    }
+
+  }
+
+  .statistics-container {
+    grid-column: 1/2;
+    justify-self: center;
+
+    h3 {
+      text-align: center;
+      margin: 0 0 10px 0;
+    }
+
+    .statistic {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5em;
+      margin-bottom: 10px;
+
+      @media screen and (max-width: 600px) {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 0.25em;
+        margin-bottom: 5px;
+      }
+
+      span {
+        font-weight: 400;
+      }
+
+      .type {
+        color: $grey;
+        text-align: center;
+      }
+
+      .value {
+        color: $yellow;
+        text-align: center;
+      }
+    }
+  }
+
+  .description-container {
+    grid-column: 2/4;
+
+    h3 {
+      margin: 0 0 10px 0;
+      color: $green;
+    }
+
+    .description {
+      margin: 0;
+      color: $white;
+      line-height: 1.5em;
+      white-space: pre-line;
+      text-align: justify;
+    }
+
+    .date {
+      margin: 10px 0 0 0;
+      color: $yellow;
+      font-size: 0.8em;
+      text-align: right;
+    }
+  }
+}
+
+.edit-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 50vw;
+  height: 90vh;
+  background-color: $white;
+  overflow: auto;
+  color: $black;
+  padding: 1em;
+  border-radius: 15px;
+  box-shadow: 0 0 15px $black;
+  z-index: 2;
+
+  @media screen and (max-width: 1500px) {
+    width: 70vw;
+  }
+
+  @media screen and (max-width: 1000px) {
+    width: 90vw;
+  }
+
+  .close-btn {
+    text-align: right;
+  }
+
+  h2 {
+    margin: 0;
+    text-align: center;
+  }
+
+  .errors-container {
+    width: 80%;
+    margin: 15px auto 0 auto;
+    padding: 15px 0;
+    color: $warning;
+
+    @media screen and (max-width: 600px) {
+      width: 100%;
+    }
+
+    h3 {
+      margin: 0 0 10px 0;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 30px;
+      list-style-type: square;
+
+      li {
+        padding: 5px 0;
+        font-weight: 300;
+      }
+    }
+  }
+
+  .form-field {
+    display: block;
+    padding: 15px 0;
+
+    label {
+      display: block;
+      width: 100%;
+      font-weight: 300;
+    }
+
+    small {
+      display: block;
+      margin-top: 5px;
+      color: $grey;
+    }
+
+    input, textarea {
+      width: 100%;
+      display: block;
+      margin-top: 10px;
+      padding: 0.8em;
+      border-radius: 10px;
+      background-color: $green;
+      color: $black;
+      border: 1px solid $black;
+      outline: none;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    textarea {
+      resize: none;
+      height: 150px;
+      line-height: 1.4em;
+    }
+  }
+
+  .submit-container {
+    padding: 15px 0;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+
+    button {
+      margin-right: 10px;
+      background-color: $grey;
+      color: $white;
+      line-height: 28px;
+      transition: background-color 0.5s;
+
+      &:hover {
+        background-color: $hover;
+      }
+    }
+  }
+
+  .delete-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+
+    button {
+      color: $black;
+      background-color: $warning;
+      line-height: 28px;
+      font-weight: 400;
+      transition: background-color 0.5s;
+
+      &:hover {
+        background-color: $hover;
+      }
+    }
+
+    .confirm {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      text-align: left;
+
+      a {
+        text-decoration: underline;
+        color: $warning;
+        transition: color 0.5s;
+        cursor: pointer;
+        font-size: 0.8em;
+        font-weight: 400;
+
+        &:hover {
+          color: $hover;
+        }
+      }
+    }
+  }
+}

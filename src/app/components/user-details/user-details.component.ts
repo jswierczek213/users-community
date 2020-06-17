@@ -20,6 +20,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   subscriptions$: Subscription[] = [];
 
   user: User;
+
+  displayUserData = false;
   displayLoader = false;
   somethingWrong = false;
 
@@ -49,7 +51,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
         } else {
           console.error(error);
         }
-      }
+      },
+      () => this.displayUserData = true
     );
   }
 
