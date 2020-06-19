@@ -79,7 +79,7 @@ export class LoginPageComponent implements OnInit {
       (result) => {
         localStorage.setItem('user', JSON.stringify(result));
         this.userService.updateUserValue();
-        this.router.navigate(['/all-users']);
+        this.router.navigate(['/posts']);
       },
       (error) => {
         this.errorRegistrationOccured = true;
@@ -109,7 +109,7 @@ export class LoginPageComponent implements OnInit {
         if (result) {
           localStorage.setItem('user', JSON.stringify(result));
           this.userService.updateUserValue();
-          this.router.navigate(['/home']);
+          this.router.navigate(['/posts']);
         } else {
           this.loginForm.reset();
           this.registrationForm.reset();
@@ -126,7 +126,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/posts/1']);
   }
 
 }

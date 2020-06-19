@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { Subscription, TimeoutError } from 'rxjs';
-import { finalize, timeout } from 'rxjs/operators';
+import { finalize, timeout, filter, map } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 
 @Component({
@@ -15,6 +15,8 @@ export class AllUsersComponent implements OnInit, OnDestroy {
 
   subscriptions$: Subscription[] = [];
 
+  currentUser: User;
+
   users: User[] = [];
   displayLoader = false;
   somethingWrong = false;
@@ -23,6 +25,7 @@ export class AllUsersComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions$.push(this.getAllUsers());
+    this.currentUser = this.userService.currentUserValue();
   }
 
   getAllUsers() {
@@ -30,6 +33,7 @@ export class AllUsersComponent implements OnInit, OnDestroy {
 
     return this.userService.getList()
     .pipe(
+      map((users: User[]) => users.filter((user: User) => !user.nickname.includes(this.currentUser.nickname))),
       timeout(10000),
       finalize(() => {
         this.displayLoader = false;
@@ -40,7 +44,7 @@ export class AllUsersComponent implements OnInit, OnDestroy {
       })
     )
     .subscribe(
-      (data) => this.users = data,
+      (users) => this.users = users,
       (error) => {
         if (error instanceof TimeoutError) {
           console.error(error.message);

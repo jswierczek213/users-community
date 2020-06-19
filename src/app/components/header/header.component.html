@@ -1,12 +1,12 @@
 <!-- Default navbar (desktop) -->
 <nav>
-  <div class="logo" title="Home page" routerLink=""> Users Community </div>
+  <div class="logo" title="Posts page" routerLink=""> Users Community </div>
   <div class="links-container">
     <div class="default-links">
       <a
-        title="About this website"
-        routerLink="/home"
-        routerLinkActive="active">Home</a>
+        title="Posts page"
+        routerLink="/posts"
+        routerLinkActive="active">Posts</a>
       <a
         title="List of all users"
         routerLink="/all-users"
@@ -49,14 +49,14 @@
 <!-- Navbar links for mobile devices -->
 <div class="animate__animated mobile-links-container" *ngIf="displayLinks"
   [ngClass]="{'animate__fadeIn': displayLinks}">
-  <div class="logo" title="Home page" routerLink="" (click)="toggleLinks()"> Users Community </div>
+  <div class="logo" title="posts page" routerLink="" (click)="toggleLinks()"> Users Community </div>
   <div class="default-links">
     <div>
       <a
-        title="About this website"
-        routerLink="/home"
+        title="Posts page"
+        routerLink="/posts"
         routerLinkActive="active"
-        (click)="toggleLinks()">Home</a>
+        (click)="toggleLinks()">Posts</a>
     </div>
     <div>
       <a
