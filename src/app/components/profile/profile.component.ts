@@ -3,7 +3,9 @@ import { UserService } from 'src/app/services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
-import { timeout, finalize } from 'rxjs/operators';
+import { timeout, finalize, map } from 'rxjs/operators';
+import { ProfileCommentsService } from 'src/app/services/profile-comments.service';
+import { ProfileComment } from 'src/app/models/profile-comment';
 
 @Component({
   selector: 'app-profile',
@@ -14,12 +16,16 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     public userService: UserService,
+    private profileCommentsService: ProfileCommentsService,
     private fb: FormBuilder,
     private router: Router
   ) { }
 
   @Input() myProfile: boolean;
   @Input() user: User;
+
+  comments: ProfileComment[] = [];
+  currentUser: User;
 
   editForm: FormGroup;
   displayEditForm = false;
@@ -30,6 +36,12 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.buildEditForm();
+
+    this.displayLoader = true;
+
+    this.getComments();
+
+    this.currentUser = this.userService.currentUserValue();
   }
 
   buildEditForm() {
@@ -45,6 +57,19 @@ export class ProfileComponent implements OnInit {
 
   toggleConfirm() {
     this.displayConfirm = !this.displayConfirm;
+  }
+
+  getComments() {
+    this.profileCommentsService.getComments(this.user.nickname)
+    .pipe(
+      map((x: any) => x.comments),
+      timeout(10000),
+      finalize(() => this.displayLoader = false)
+    )
+    .subscribe(
+      (result) => this.comments = result,
+      (error) => console.error(error)
+    );
   }
 
   submit() {
@@ -81,6 +106,77 @@ export class ProfileComponent implements OnInit {
     );
   }
 
+  addComment(content: string) {
+    if ((content.length <= 1) || (content.length > 255)) {
+      return;
+    }
+
+    this.displayLoader = true;
+
+    this.profileCommentsService.addComment(this.user.nickname, this.currentUser._id, content, this.currentUser.nickname)
+    .pipe(
+      timeout(10000),
+      finalize(() => this.displayLoader = false)
+    )
+    .subscribe(
+      (result) => null,
+      (error) => console.error(error),
+      () => {
+        this.getComments();
+
+        const givenCommentsCount = this.currentUser.givenComments + 1;
+        this.userService.editUserData(this.currentUser._id, { givenComments: givenCommentsCount })
+        .pipe(
+          timeout(10000)
+        )
+        .subscribe(
+          (result) => null,
+          (error) => console.error(error),
+          () => {
+            // Update local user data
+            this.currentUser.givenComments = givenCommentsCount;
+            localStorage.setItem('user', JSON.stringify(this.currentUser));
+            this.userService.updateUserValue();
+          }
+        );
+      }
+    );
+  }
+
+
+  deleteComment(commentId: string) {
+    this.displayLoader = true;
+
+    this.profileCommentsService.deleteComment(this.user.nickname, commentId)
+    .pipe(
+      timeout(10000),
+      finalize(() => this.displayLoader = false)
+      )
+      .subscribe(
+        (result) => null,
+        (error) => console.error(error),
+        () => {
+          this.getComments();
+
+          const givenCommentsCount = this.currentUser.givenComments - 1;
+          this.userService.editUserData(this.currentUser._id, { givenComments: givenCommentsCount })
+          .pipe(
+            timeout(10000)
+            )
+            .subscribe(
+              (result) => null,
+              (error) => console.error(error),
+              () => {
+                // Update local user data
+                this.currentUser.givenComments = givenCommentsCount;
+                localStorage.setItem('user', JSON.stringify(this.currentUser));
+                this.userService.updateUserValue();
+              }
+            );
+          }
+        );
+    }
+
   deleteAccount() {
     this.displayLoader = true;
     this.serverError = false;
@@ -99,5 +195,4 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
-
 }

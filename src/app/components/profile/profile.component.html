@@ -48,6 +48,37 @@
       This account was created at {{ user.createDate | date:'dd-MM-yyyy' }}
     </p>
   </div>
+  <div class="grid-item comments-container">
+    <h3>Comments</h3>
+
+    <div class="add-comment-container" *ngIf="!myProfile">
+      <input #comment type="text" placeholder="Your comment"
+      (keyup.enter)="addComment(comment.value); comment.value = ''" />
+      <button (click)="addComment(comment.value); comment.value = ''">Add</button>
+    </div>
+
+    <!-- Comment container -->
+    <div class="comment" *ngFor="let comment of comments" >
+      <div class="nickname-date-container">
+        <span class="nickname" [routerLink]="'/user/' + comment.userId"> {{ comment.nickname }} </span>
+        <div>
+          <span class="delete"
+          (click)="deleteComment(comment._id)"
+          *ngIf="currentUser.nickname === comment.nickname">delete</span>
+          <span class="date"> {{ comment.date | date:'dd-MM-yyyy HH:mm' }} </span>
+        </div>
+      </div>
+      <div class="content">
+        <p> {{ comment.content }} </p>
+      </div>
+    </div>
+
+    <!-- Display if there is no comment -->
+    <div class="no-results" *ngIf="comments.length === 0">
+      <p>No comments yet</p>
+    </div>
+
+  </div>
 </div>
 
  <!-- Edit container -->
