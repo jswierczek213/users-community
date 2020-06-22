@@ -84,13 +84,10 @@
 
     .btn-container {
       width: 100%;
-
-      &:first-child {
-        margin-bottom: 10px;
-      }
+      margin-bottom: 10px;
     }
 
-    .edit, .logout {
+    .edit, .logout, .notif {
       line-height: normal;
       width: fit-content;
       height: auto;
@@ -101,12 +98,16 @@
       cursor: pointer;
       transition: background-color 0.5s;
 
+      @media screen and (max-width: 600px) {
+        font-size: 0.8em;
+      }
+
       &:hover {
         background-color: $hover;
       }
     }
 
-    .edit {
+    .edit, .notif {
       background-color: $green;
       color: $black;
     }

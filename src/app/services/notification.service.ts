@@ -15,6 +15,11 @@ export class NotificationService {
   basicUrl = 'https://users-community.herokuapp.com/api';
 
   addPushSubscriber(sub) {
-    return this.http.post(`${this.basicUrl}/notification/subscribe`, sub);
+    console.log(sub);
+    // return this.http.post(`${this.basicUrl}/notification/subscribe`, sub);
+  }
+
+  tagged(nickname: string, url: string) {
+    return this.http.post(`${this.basicUrl}/notification/tagged`, { nickname });
   }
 }

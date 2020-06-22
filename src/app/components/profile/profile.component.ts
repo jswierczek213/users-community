@@ -141,6 +141,7 @@ export class ProfileComponent implements OnInit, OnChanges {
 
             // If exists, then send him/her notification (with information about current URL)
             const url = `/user/${this.user._id}`;
+            this.notificationService.tagged(this.currentUser.nickname, url).subscribe();
           }
         );
       }
@@ -236,7 +237,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     this.swPush.requestSubscription({
       serverPublicKey: this.notificationService.VAPID_PUBLIC_KEY
     })
-    .then(sub => this.notificationService.addPushSubscriber(sub).subscribe())
+    .then(sub => this.notificationService.addPushSubscriber(sub)) // .subscribe()
     .catch(err => console.error('Could not subscribe to push notifications', err));
   }
 
