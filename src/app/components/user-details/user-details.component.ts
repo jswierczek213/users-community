@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterEvent, NavigationEnd } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { Subscription, TimeoutError } from 'rxjs';
-import { timeout, finalize } from 'rxjs/operators';
+import { timeout, finalize, map } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 
 @Component({
@@ -14,7 +14,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) { }
 
   subscriptions$: Subscription[] = [];
@@ -26,8 +27,12 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   somethingWrong = false;
 
   ngOnInit() {
-    const userId = this.route.snapshot.params.id;
-    this.subscriptions$.push(this.getUserData(userId));
+    this.route.params.subscribe(
+      (params: any) => {
+        const userId = params.id;
+        this.subscriptions$.push(this.getUserData(userId));
+      }
+    );
   }
 
   getUserData(id: string) {

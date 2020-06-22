@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,23 +6,27 @@ import { User } from 'src/app/models/user';
 import { timeout, finalize, map } from 'rxjs/operators';
 import { ProfileCommentsService } from 'src/app/services/profile-comments.service';
 import { ProfileComment } from 'src/app/models/profile-comment';
+import { NotificationService } from 'src/app/services/notification.service';
+import { SwPush } from '@angular/service-worker';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnChanges {
 
   constructor(
     public userService: UserService,
     private profileCommentsService: ProfileCommentsService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService,
+    private swPush: SwPush
   ) { }
 
-  @Input() myProfile: boolean;
   @Input() user: User;
+  @Input() myProfile: boolean;
 
   comments: ProfileComment[] = [];
   currentUser: User;
@@ -37,11 +41,9 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.buildEditForm();
 
-    this.displayLoader = true;
-
-    this.getComments();
-
-    this.currentUser = this.userService.currentUserValue();
+    if (this.myProfile) {
+      this.getComments();
+    }
   }
 
   buildEditForm() {
@@ -60,6 +62,8 @@ export class ProfileComponent implements OnInit {
   }
 
   getComments() {
+    this.displayLoader = true;
+
     this.profileCommentsService.getComments(this.user.nickname)
     .pipe(
       map((x: any) => x.comments),
@@ -68,7 +72,8 @@ export class ProfileComponent implements OnInit {
     )
     .subscribe(
       (result) => this.comments = result,
-      (error) => console.error(error)
+      (error) => console.error(error),
+      () => (x: ProfileComment, y: ProfileComment) => new Date(y.date).getTime() - new Date(x.date).getTime()
     );
   }
 
@@ -113,6 +118,34 @@ export class ProfileComponent implements OnInit {
 
     this.displayLoader = true;
 
+    const regexArray = content.match(/@(\S+)/g);
+    if (regexArray) {
+      const nickname = regexArray[0].slice(1);
+
+      // Correct nickname length
+      if ((nickname.length >= 3) && (nickname.length <= 15)) {
+        // Check if user with the given nickname exists
+        let userExists: boolean;
+
+        this.userService.getList()
+        .pipe(
+          map((users: User[]) => users.filter((x) => x.nickname === nickname))
+        )
+        .subscribe(
+          (result: User[]) => result.length === 1 ? userExists = true : userExists = false,
+          (error) => console.error(error),
+          () => {
+            if (!userExists) {
+              return;
+            }
+
+            // If exists, then send him/her notification (with information about current URL)
+            const url = `/user/${this.user._id}`;
+          }
+        );
+      }
+    }
+
     this.profileCommentsService.addComment(this.user.nickname, this.currentUser._id, content, this.currentUser.nickname)
     .pipe(
       timeout(10000),
@@ -137,6 +170,9 @@ export class ProfileComponent implements OnInit {
             this.currentUser.givenComments = givenCommentsCount;
             localStorage.setItem('user', JSON.stringify(this.currentUser));
             this.userService.updateUserValue();
+
+            // Send notification about new comment
+            const url = `/user/${this.user._id}`;
           }
         );
       }
@@ -194,5 +230,23 @@ export class ProfileComponent implements OnInit {
         this.router.navigate(['/all-users']);
       }
     );
+  }
+
+  enableNotif() {
+    this.swPush.requestSubscription({
+      serverPublicKey: this.notificationService.VAPID_PUBLIC_KEY
+    })
+    .then(sub => this.notificationService.addPushSubscriber(sub).subscribe())
+    .catch(err => console.error('Could not subscribe to push notifications', err));
+  }
+
+  ngOnChanges(): void {
+    this.currentUser = this.userService.currentUserValue();
+
+    if (this.user._id === this.currentUser._id) {
+      this.router.navigate(['/my-profile']);
+    } else {
+      this.getComments();
+    }
   }
 }

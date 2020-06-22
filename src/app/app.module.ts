@@ -20,6 +20,8 @@ import { MyProfileComponent } from './components/my-profile/my-profile.component
 import { ProfileComponent } from './components/profile/profile.component';
 import { PostService } from './services/post.service';
 import { ProfileCommentsService } from './services/profile-comments.service';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { ProfileCommentsService } from './services/profile-comments.service';
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [UserService, PostService, ProfileCommentsService],
   bootstrap: [AppComponent]

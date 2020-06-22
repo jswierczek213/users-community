@@ -1,7 +1,7 @@
 <!-- Display loader if necessary -->
 <app-loader *ngIf="displayLoader"></app-loader>
 
-<!-- Profile container -->
+<!-- Profile info container -->
 <div class="container">
   <div class="grid-item image-container">
     <div class="image-placeholder">
@@ -23,6 +23,12 @@
       <button class="edit" mat-flat-button
       (click)="toggleEditForm()">
         Edit profile
+      </button>
+    </div>
+    <div class="btn-container">
+      <button class="edit" mat-flat-button
+      (click)="enableNotif()">
+        Enable notifications
       </button>
     </div>
   </div>
@@ -51,7 +57,7 @@
   <div class="grid-item comments-container">
     <h3>Comments</h3>
 
-    <div class="add-comment-container" *ngIf="!myProfile">
+    <div class="add-comment-container">
       <input #comment type="text" placeholder="Your comment"
       (keyup.enter)="addComment(comment.value); comment.value = ''" />
       <button (click)="addComment(comment.value); comment.value = ''">Add</button>
