@@ -1912,7 +1912,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
             this.scope.addEventListener('message', (event) => this.onMessage(event));
             this.scope.addEventListener('push', (event) => this.onPush(event));
             this.scope.addEventListener('notificationclick', (event) => {
-              this.onClick(event);
+              event.notification.close();
               if (clients.openWindow && event.notification.data.url) {
                   event.waitUntil(clients.openWindow(event.notification.data.url));
               }
