@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     private profileCommentsService: ProfileCommentsService,
     private fb: FormBuilder,
     private router: Router,
-    public notificationService: NotificationService,
+    private notificationService: NotificationService,
     private swPush: SwPush
   ) { }
 
@@ -243,6 +243,14 @@ export class ProfileComponent implements OnInit, OnChanges {
       (error) => console.error(error)
     ))
     .catch(err => console.error('Could not subscribe to push notifications', err));
+  }
+
+  notifyToAllUsers(description: string) {
+    this.notificationService.notifyToAllUsers(description)
+    .subscribe(
+      (result) => null,
+      (error) => console.error(error)
+    );
   }
 
   ngOnChanges(): void {

@@ -17,14 +17,17 @@ export class NotificationService {
   addPushSubscriber(sub, nickname) {
     const subscription = {
       nickname,
-      sub
+      data: sub
     };
 
     return this.http.post(`${this.basicUrl}/notification/subscribe`, subscription);
   }
 
-  notifToAllUsers(description: string) {
-    return this.http.post(`${this.basicUrl}/notification/all`, description);
+  notifyToAllUsers(description: string) {
+    const notificationData = {
+      description
+    };
+    return this.http.post(`${this.basicUrl}/notification/all`, notificationData);
   }
 
   tagged(nickname: string, targetNickname: string) {
