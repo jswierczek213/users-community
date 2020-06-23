@@ -331,6 +331,16 @@
     text-align: right;
   }
 
+  .notif-container {
+    h3 {
+      margin: 0 0 7px 0;
+    }
+
+    button {
+      cursor: pointer;
+    }
+  }
+
   h2 {
     margin: 0;
     text-align: center;

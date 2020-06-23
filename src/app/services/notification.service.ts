@@ -23,7 +23,15 @@ export class NotificationService {
     return this.http.post(`${this.basicUrl}/notification/subscribe`, subscription);
   }
 
-  tagged(nickname: string, url: string) {
-    return this.http.post(`${this.basicUrl}/notification/tagged`, { nickname });
+  notifToAllUsers(description: string) {
+    return this.http.post(`${this.basicUrl}/notification/all`, description);
+  }
+
+  tagged(nickname: string, targetNickname: string) {
+    const notificationData = {
+      whoTagged: nickname,
+      targetNickname
+    };
+    return this.http.post(`${this.basicUrl}/notification/tagged`, notificationData);
   }
 }

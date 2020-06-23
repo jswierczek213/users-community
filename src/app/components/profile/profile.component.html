@@ -95,6 +95,12 @@
     </button>
   </div>
 
+  <div class="notif-container" *ngIf="user.nickname === 'SAGU'">
+    <h3>New features description</h3>
+    <input #description type="text" placeholder="Send something.." />
+    <button (click)="notificationService.notifToAllUsers(description.value); description.value = ''">Send</button>
+  </div>
+
   <h2>Edit your profile!</h2>
 
   <div class="errors-container" *ngIf="displayErrors" >

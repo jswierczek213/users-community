@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     private profileCommentsService: ProfileCommentsService,
     private fb: FormBuilder,
     private router: Router,
-    private notificationService: NotificationService,
+    public notificationService: NotificationService,
     private swPush: SwPush
   ) { }
 
@@ -141,7 +141,7 @@ export class ProfileComponent implements OnInit, OnChanges {
 
             // If exists, then send him/her notification (with information about current URL)
             const url = `/user/${this.user._id}`;
-            this.notificationService.tagged(this.currentUser.nickname, url).subscribe();
+            this.notificationService.tagged(this.currentUser.nickname, nickname).subscribe();
           }
         );
       }
@@ -237,7 +237,11 @@ export class ProfileComponent implements OnInit, OnChanges {
     this.swPush.requestSubscription({
       serverPublicKey: this.notificationService.VAPID_PUBLIC_KEY
     })
-    .then(sub => this.notificationService.addPushSubscriber(sub, this.currentUser.nickname).subscribe())
+    .then(sub => this.notificationService.addPushSubscriber(sub, this.currentUser.nickname)
+    .subscribe(
+      (result: any) => result.message ? console.log(result.message) : null,
+      (error) => console.error(error)
+    ))
     .catch(err => console.error('Could not subscribe to push notifications', err));
   }
 
