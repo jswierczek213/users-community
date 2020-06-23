@@ -237,7 +237,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     this.swPush.requestSubscription({
       serverPublicKey: this.notificationService.VAPID_PUBLIC_KEY
     })
-    .then(sub => this.notificationService.addPushSubscriber(sub)) // .subscribe()
+    .then(sub => this.notificationService.addPushSubscriber(sub, this.currentUser.nickname).subscribe())
     .catch(err => console.error('Could not subscribe to push notifications', err));
   }
 
