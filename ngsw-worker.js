@@ -1913,7 +1913,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
             this.scope.addEventListener('push', (event) => this.onPush(event));
             this.scope.addEventListener('notificationclick', (event) => {
               event.notification.close();
-              if (clients.openWindow && event.notification.data.url) {
+              if (event.notification.data.url) {
                   event.waitUntil(clients.openWindow(event.notification.data.url));
               }
             });
