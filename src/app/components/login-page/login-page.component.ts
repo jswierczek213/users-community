@@ -61,7 +61,8 @@ export class LoginPageComponent implements OnInit {
 
     this.displayLoader = true;
 
-    const nickname = this.registrationForm.value.nickname.trim();
+    let nickname: string = this.registrationForm.value.nickname.trim();
+    nickname = nickname.replace(/\s/g, '');
     const password = this.registrationForm.value.password.trim();
     const confirmPassword = this.registrationForm.value.confirmPassword.trim();
     const introduction = this.registrationForm.value.introduction.trim();
@@ -76,8 +77,8 @@ export class LoginPageComponent implements OnInit {
       finalize(() => this.displayLoader = false)
     )
     .subscribe(
-      (result) => {
-        localStorage.setItem('user', JSON.stringify(result));
+      (result: any) => {
+        localStorage.setItem('user', JSON.stringify(result.savedUser));
         this.userService.updateUserValue();
         this.router.navigate(['/posts']);
       },

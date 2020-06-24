@@ -39,7 +39,7 @@
         <span class="title"> {{ post.title }} </span>
         <div>
           <button mat-icon-button class="delete"
-          *ngIf="user && user._id === post.userId"
+          *ngIf="user && ((user._id === post.userId) || (user.nickname === 'SAGU'))"
           (click)="deletePost(post._id)" title="Delete post">
             <mat-icon>delete</mat-icon>
           </button>
@@ -53,6 +53,7 @@
       <div class="content-container">
         <p> {{ post.content }} </p>
       </div>
+
       <div class="comments-date-info">
         <div>
           <button mat-icon-button (click)="toggleLike(post._id, i)">
@@ -66,25 +67,30 @@
         </div>
         <small> {{ post.date | date:'dd-MM-yyyy HH:mm' }} </small>
       </div>
+
       <div class="comments-container"
       *ngIf="commentContainers[i].display">
+
         <div class="add-comment-container" *ngIf="user">
           <input #comment type="text" placeholder="Your comment"
           (keyup.enter)="addComment(post._id, user._id, comment.value, user.nickname, i); comment.value = ''" />
           <button (click)="addComment(post._id, user._id, comment.value, user.nickname, i); comment.value = ''">Add</button>
         </div>
-        <div class="comment" *ngFor="let comment of post.comments" >
-          <div class="nickname">
-            <a [routerLink]="'/user/' + comment.userId" title="View profile">{{ comment.nickname }}</a>
-            <span>{{ comment.date | date:'dd-MM-yyyy HH:mm' }}</span>
-            <button mat-icon-button title="Delete comment"
-            (click)="deleteComment(post._id, comment._id, i)"
-            *ngIf="user && user._id === comment.userId">
-              <mat-icon>delete</mat-icon>
-            </button>
+
+        <section class="comment-list">
+          <div class="comment" *ngFor="let comment of post.comments" >
+            <div class="nickname">
+              <a [routerLink]="'/user/' + comment.userId" title="View profile">{{ comment.nickname }}</a>
+              <span>{{ comment.date | date:'dd-MM-yyyy HH:mm' }}</span>
+              <button mat-icon-button title="Delete comment"
+              (click)="deleteComment(post._id, comment._id, i)"
+              *ngIf="user && (user._id === comment.userId) || (user.nickname === 'SAGU')">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <p class="comment-content"> {{ comment.content }} </p>
           </div>
-          <p class="comment-content"> {{ comment.content }} </p>
-        </div>
+        </section>
       </div>
     </div>
 

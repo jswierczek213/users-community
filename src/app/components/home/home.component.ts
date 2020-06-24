@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PostService } from 'src/app/services/post.service';
 import { Post } from 'src/app/models/post';
-import { finalize, timeout, map, bufferCount, flatMap } from 'rxjs/operators';
+import { finalize, timeout, map } from 'rxjs/operators';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, from } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',

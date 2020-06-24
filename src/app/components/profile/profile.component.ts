@@ -218,7 +218,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     this.displayLoader = true;
     this.serverError = false;
 
-    this.userService.deleteUser(this.user._id)
+    this.userService.deleteUser(this.user._id, this.user.nickname)
     .pipe(
       finalize(() => this.displayLoader = false)
     )

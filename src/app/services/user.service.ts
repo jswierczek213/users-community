@@ -38,8 +38,8 @@ export class UserService {
   }
 
   // Remove specified user
-  deleteUser(id: string) {
-    return this.http.delete(`${this.basicUrl}/users/${id}`);
+  deleteUser(id: string, nickname: string) {
+    return this.http.delete(`${this.basicUrl}/users/${id}/${nickname}`);
   }
 
   // Register a new user
