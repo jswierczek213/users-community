@@ -24,25 +24,33 @@
       </a>
 
       <!-- If logged in -->
-      <button mat-icon-button
-          *ngIf="user"
-          [title]="user.nickname + ' account'"
-          routerLink="/my-profile">
+      <button mat-icon-button *ngIf="user" title="Notifications" routerLink="/notifications">
+        <mat-icon [matBadge]="unreadedNotifications"
+          [matBadgeHidden]="unreadedNotifications === 0"
+          matBadgeSize="small">notifications</mat-icon>
+      </button>
+
+      <button mat-icon-button *ngIf="user" title="Profile" routerLink="/my-profile">
         <mat-icon>account_circle</mat-icon>
       </button>
+
 
     </div>
   </div>
   <div class="icon-container">
-    <button mat-icon-button
-        *ngIf="user"
-        [title]="user.nickname + ' account'"
-        routerLink="/my-profile">
+
+    <button mat-icon-button *ngIf="user" title="Notifications" routerLink="/notifications">
+      <mat-icon matBadge="2" matBadgeHidden="false" matBadgeSize="small">notifications</mat-icon>
+    </button>
+
+    <button mat-icon-button *ngIf="user" title="Profile" routerLink="/my-profile">
       <mat-icon>account_circle</mat-icon>
     </button>
+
     <button mat-icon-button (click)="toggleLinks()">
       <mat-icon>menu</mat-icon>
     </button>
+
   </div>
 </nav>
 

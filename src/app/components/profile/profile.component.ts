@@ -126,13 +126,21 @@ export class ProfileComponent implements OnInit, OnChanges {
       if ((nickname.length >= 3) && (nickname.length <= 15)) {
         // Check if user with the given nickname exists
         let userExists: boolean;
+        let taggedUser: User;
 
         this.userService.getList()
         .pipe(
           map((users: User[]) => users.filter((x) => x.nickname === nickname))
         )
         .subscribe(
-          (result: User[]) => result.length === 1 ? userExists = true : userExists = false,
+          (result: User[]) => {
+            if (result.length === 1) {
+              userExists = true;
+              taggedUser = result[0];
+            } else {
+              userExists = false;
+            }
+          },
           (error) => console.error(error),
           () => {
             if (!userExists) {
@@ -141,7 +149,20 @@ export class ProfileComponent implements OnInit, OnChanges {
 
             // If exists, then send him/her notification (with information about current URL)
             const url = `/user/${this.user._id}`;
-            this.notificationService.tagged(this.currentUser.nickname, nickname).subscribe();
+
+            this.notificationService.addNotification(
+              taggedUser._id,
+              this.currentUser.nickname,
+              `${this.currentUser.nickname} tagged you in the comment`,
+              'Click here to see details',
+              url,
+              'account_box',
+              false
+            ).subscribe(
+              (result) => null,
+              (error) => console.error(error),
+              () => this.notificationService.tagged(this.currentUser.nickname, nickname).subscribe()
+            );
           }
         );
       }
@@ -174,6 +195,20 @@ export class ProfileComponent implements OnInit, OnChanges {
 
             // Send notification about new comment
             const url = `/user/${this.user._id}`;
+
+            this.notificationService.addNotification(
+              this.user._id,
+              this.currentUser.nickname,
+              'New comment on your profile',
+              `${this.currentUser.nickname} posted a comment!`,
+              url,
+              'account_box',
+              false
+            ).subscribe(
+              (result) => null,
+              (error) => console.error(error),
+              () => this.notificationService.newComment(this.currentUser.nickname, this.user.nickname).subscribe()
+            );
           }
         );
       }
@@ -246,10 +281,33 @@ export class ProfileComponent implements OnInit, OnChanges {
   }
 
   notifyToAllUsers(description: string) {
-    this.notificationService.notifyToAllUsers(description)
-    .subscribe(
-      (result) => null,
-      (error) => console.error(error)
+    let allUsers: User[];
+    let allUsersId: Array<string>;
+
+    this.userService.getList().subscribe(
+      (result) => allUsers = result,
+      (error) => console.error(error),
+      () => {
+        allUsersId = allUsers.map((x: User) => x._id);
+        allUsersId.forEach(id => {
+          this.notificationService.addNotification(
+            id,
+            'Admin',
+            'Users-community website contains new features!',
+            description,
+            '/notifications',
+            'info',
+            true
+          )
+          .subscribe(
+            (result) => null,
+            (error) => console.error(error),
+            () => {
+              this.notificationService.notifyToAllUsers(description).subscribe();
+            }
+          );
+        });
+      }
     );
   }
 

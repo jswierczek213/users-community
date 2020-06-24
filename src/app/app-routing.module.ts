@@ -6,6 +6,7 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { AuthGuard } from './auth.guard';
+import { NotificationComponent } from './components/notification/notification.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'login-page', component: LoginPageComponent },
   { path: 'all-users', component: AllUsersComponent, canActivate: [AuthGuard] },
   { path: 'user/:id', component: UserDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'notifications', component: NotificationComponent, canActivate: [AuthGuard] },
   { path: 'my-profile', component: MyProfileComponent, canActivate: [AuthGuard] }
 ];
 

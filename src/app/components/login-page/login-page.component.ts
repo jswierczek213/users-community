@@ -127,7 +127,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/posts/1']);
+    this.router.navigate(['/posts']);
   }
 
 }

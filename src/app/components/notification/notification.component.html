@@ -1,0 +1,63 @@
+<!-- Display loader if necessary -->
+<app-loader *ngIf="displayLoader"></app-loader>
+
+<main>
+
+  <h1>Notifications</h1>
+
+  <section class="grid-container">
+
+    <div class="notifications-container">
+
+      <div class="notification"
+        *ngFor="let notif of notifications"
+        (click)="readOne(notif._id, notif.unreaded)">
+
+        <button mat-icon-button title="Delete" (click)="delete(notif._id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+
+        <div class="icon-container">
+          <mat-icon>{{ notif.icon }}</mat-icon>
+        </div>
+
+        <div class="details-container" [class.unreaded]="notif.unreaded" >
+          <h3> {{ notif.title }} </h3>
+          <div class="description">
+            <p> {{ notif.description }} </p>
+          </div>
+          <div class="link" *ngIf="!notif.informative">
+            <a [routerLink]="notif.url">Check this out</a>
+          </div>
+          <div class="date-container">
+            <small> {{ notif.date | date:'dd-MM-yyyy HH:mm' }} </small>
+          </div>
+        </div>
+
+      </div>
+
+      <h2 *ngIf="notifications.length === 0">No notification</h2>
+
+    </div>
+
+    <div class="info-container">
+      <div class="info">
+        <h2>Details</h2>
+        <div class="detail-container">
+          <p>All notifications <span> {{ notifications.length }} </span></p>
+        </div>
+        <div class="detail-container">
+          <p>Informative notifications <span> {{ informative }} </span></p>
+        </div>
+        <div class="detail-container">
+          <p>Unreaded notifications <span> {{ unreaded }} </span></p>
+        </div>
+        <div class="btn-container">
+          <button mat-flat-button (click)="readAll()">Read all</button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
