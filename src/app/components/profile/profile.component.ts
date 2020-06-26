@@ -280,28 +280,31 @@ export class ProfileComponent implements OnInit, OnChanges {
     })
     .then(sub => this.notificationService.addPushSubscriber(sub, this.currentUser.nickname)
     .subscribe(
-      (result: any) => result.message ? console.log(result.message) : null,
-      (error) => console.error(error),
-      () => {
-        const url = '/notifications';
-        this.notificationService.addNotification(
-          this.user._id,
-          this.user.nickname,
-          'Notifications enabled',
-          'You successfully unabled web-push notifications on this device!',
-          url,
-          'info',
-          true
-        ).subscribe(
-          (result) => null,
-          (error) => console.error(error),
-          () => {
-            const title = 'Notifications enabled';
-            const description = 'You successfully unabled web-push notifications on this device!';
-            this.notificationService.sendInformativeNotification(this.user.nickname, title, description).subscribe();
-          }
-        );
-      }
+      (result: any) => {
+        if (result.message) {
+          const url = '/notifications';
+          this.notificationService.addNotification(
+            this.user._id,
+            this.user.nickname,
+            'Notifications enabled',
+            'You successfully unabled web-push notifications on this device!',
+            url,
+            'info',
+            true
+          ).subscribe(
+            (result) => null,
+            (error) => console.error(error),
+            () => {
+              const title = 'Notifications enabled';
+              const description = 'You successfully unabled web-push notifications on this device!';
+              this.notificationService.sendInformativeNotification(this.user.nickname, title, description).subscribe();
+            }
+          );
+        } else {
+          return;
+        }
+      },
+      (error) => console.error(error)
     ))
     .catch(err => console.error('Could not subscribe to push notifications', err));
   }

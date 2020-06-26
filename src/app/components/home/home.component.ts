@@ -251,6 +251,56 @@ export class HomeComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const regexArray = content.match(/@(\S+)/g);
+    if (regexArray) {
+      const taggedNickname = regexArray[0].slice(1);
+
+      // Correct nickname length
+      if ((taggedNickname.length >= 3) && (taggedNickname.length <= 15)) {
+        // Check if user with the given nickname exists
+        let userExists: boolean;
+        let taggedUser: User;
+
+        this.userService.getList()
+        .pipe(
+          map((users: User[]) => users.filter((x) => x.nickname === taggedNickname))
+        )
+        .subscribe(
+          (result: User[]) => {
+            if (result.length === 1) {
+              userExists = true;
+              taggedUser = result[0];
+            } else {
+              userExists = false;
+            }
+          },
+          (error) => console.error(error),
+          () => {
+            if (!userExists) {
+              return;
+            }
+
+            // If exists, then send him/her notification (with information about current URL)
+            const url = `/posts`;
+
+            this.notificationService.addNotification(
+              taggedUser._id,
+              taggedUser.nickname,
+              `${this.user.nickname} tagged you in the comment`,
+              'Click here to see details',
+              url,
+              'account_box',
+              false
+            ).subscribe(
+              (result) => null,
+              (error) => console.error(error),
+              () => this.notificationService.tagged(this.user.nickname, taggedNickname).subscribe()
+            );
+          }
+        );
+      }
+    }
+
     this.displayLoader = true;
 
     this.subscriptions$.push(this.postService.addComment(postId, userId, content, nickname)

@@ -38,7 +38,12 @@ export class NotificationComponent implements OnInit {
     .subscribe(
       (notifications) => this.notifications = notifications,
       (error) => console.error(error),
-      () => this.setDetails()
+      () => {
+        this.notifications.sort(
+          (x: Notification, y: Notification) => new Date(y.date).getTime() - new Date(x.date).getTime()
+        );
+        this.setDetails();
+      }
     );
   }
 
