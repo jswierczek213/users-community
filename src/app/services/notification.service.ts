@@ -111,7 +111,7 @@ export class NotificationService {
     return this.http.patch(`${this.basicUrl}/notifications/user/${userId}`, { unreaded: false });
   }
 
-  deleteNotificationSubscriptions(nickname: string) {
-    return this.http.delete(`${this.basicUrl}/notifications/delete-subscriptions/${nickname}`);
+  deleteNotificationSubscriptions(userId: string) {
+    return this.http.delete(`${this.basicUrl}/notifications/delete-subscriptions/${userId}`);
   }
 }

@@ -255,7 +255,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     this.serverError = false;
 
     const observables = forkJoin(
-      this.notificationService.deleteNotificationSubscriptions(this.user.nickname),
+      this.notificationService.deleteNotificationSubscriptions(this.user._id),
       this.notificationService.deleteWebpushSubscriptions(this.user.nickname),
       this.userService.deleteUser(this.user._id, this.user.nickname)
     );

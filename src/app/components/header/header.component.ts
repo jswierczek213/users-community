@@ -32,16 +32,20 @@ export class HeaderComponent implements OnInit {
     .subscribe(
       (data) => {
         this.user = this.userService.currentUserValue();
-        this.notificationService.getNotifications(this.user._id)
-        .pipe(
-          map((notif: Notification[]) => notif.map(x => x.unreaded))
-        )
-        .subscribe(
-          ((result: Array<any>) => {
-            const onlyUnreadedArray = result.filter((x: boolean) => x === true);
-            this.unreadedNotifications = onlyUnreadedArray.length;
-          })
-        );
+
+        if (this.user) {
+          this.notificationService.getNotifications(this.user._id)
+          .pipe(
+            map((notif: Notification[]) => notif.map(x => x.unreaded))
+          )
+          .subscribe(
+            ((result: Array<any>) => {
+              const onlyUnreadedArray = result.filter((x: boolean) => x === true);
+              this.unreadedNotifications = onlyUnreadedArray.length;
+            })
+          );
+        }
+
       },
       (error) => console.error(error)
     );
