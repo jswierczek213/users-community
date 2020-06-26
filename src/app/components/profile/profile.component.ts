@@ -281,7 +281,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     .then(sub => this.notificationService.addPushSubscriber(sub, this.currentUser.nickname)
     .subscribe(
       (result: any) => {
-        if (result.message) {
+        if (!result.message) {
           const url = '/notifications';
           this.notificationService.addNotification(
             this.user._id,
