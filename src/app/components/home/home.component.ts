@@ -267,7 +267,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         )
         .subscribe(
           (result: User[]) => {
-            if (result.length === 1) {
+            if (result.length === 1 && result[0]._id !== this.user._id) {
               userExists = true;
               taggedUser = result[0];
             } else {

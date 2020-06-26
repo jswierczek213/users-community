@@ -4,6 +4,7 @@ import { Notification } from 'src/app/models/notification';
 import { finalize, timeout } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-notification',
@@ -12,7 +13,10 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NotificationComponent implements OnInit {
 
-  constructor(private notificationService: NotificationService, private userService: UserService) { }
+  constructor(
+    private notificationService: NotificationService,
+    private userService: UserService,
+    private router: Router) { }
 
   notifications: Notification[] = [];
   user: User;
@@ -81,6 +85,11 @@ export class NotificationComponent implements OnInit {
       (error) => console.error(error),
       () => this.getNotifications()
     );
+  }
+
+  move(notifId: string, unreaded: boolean, notifUrl: string) {
+    this.readOne(notifId, unreaded);
+    this.router.navigate([notifUrl]);
   }
 
   delete(notifId: string) {

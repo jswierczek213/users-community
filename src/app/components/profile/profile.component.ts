@@ -135,7 +135,7 @@ export class ProfileComponent implements OnInit, OnChanges {
         )
         .subscribe(
           (result: User[]) => {
-            if (result.length === 1) {
+            if (result.length === 1 && result[0]._id !== this.currentUser._id) {
               userExists = true;
               taggedUser = result[0];
             } else {
@@ -292,7 +292,7 @@ export class ProfileComponent implements OnInit, OnChanges {
             'info',
             true
           ).subscribe(
-            (result) => null,
+            (x) => null,
             (error) => console.error(error),
             () => {
               const title = 'Notifications enabled';

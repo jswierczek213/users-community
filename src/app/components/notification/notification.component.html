@@ -27,7 +27,7 @@
             <p> {{ notif.description }} </p>
           </div>
           <div class="link" *ngIf="!notif.informative">
-            <a [routerLink]="notif.url">Check this out</a>
+            <a (click)="move(notif._id, notif.unreaded, notif.url)">Check this out</a>
           </div>
           <div class="date-container">
             <small> {{ notif.date | date:'dd-MM-yyyy HH:mm' }} </small>
