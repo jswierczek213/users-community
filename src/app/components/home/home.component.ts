@@ -7,6 +7,7 @@ import { User } from 'src/app/models/user';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private postService: PostService,
     private userService: UserService,
+    private notificationService: NotificationService,
     private fb: FormBuilder,
     private snackbar: MatSnackBar
   ) { }
@@ -139,7 +141,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     ));
   }
 
-  toggleLike(postId, postIndex) {
+  toggleLike(postId, postIndex, postUserId, postNickname) {
     if (!this.user) {
       return this.displayNotify('You need to log in!');
     }
@@ -200,6 +202,16 @@ export class HomeComponent implements OnInit, OnDestroy {
         () => {
           this.loadLikes(postId, postIndex);
 
+          this.notificationService.addNotification(
+            postUserId,
+            postNickname,
+            `${this.user.nickname} liked your post`,
+            'Click to see details',
+            '/posts',
+            'account_box',
+            false
+          ).subscribe();
+
           const givenLikesCount = this.user.givenLikes + 1;
           this.subscriptions$.push(this.userService.editUserData(this.user._id, { givenLikes: givenLikesCount })
           .pipe(
@@ -233,7 +245,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  addComment(postId, userId, content, nickname, index) {
+  addComment(postId, userId, content, nickname, index, postUserId, postUserNickname) {
 
     if ((content.length <= 1) || (content.length > 255)) {
       return;
@@ -252,6 +264,20 @@ export class HomeComponent implements OnInit, OnDestroy {
       () => {
         this.loadComments(postId, index);
         this.displayNotify('Comment has been added');
+
+        this.notificationService.addNotification(
+          postUserId,
+          postUserNickname,
+          `${nickname} commented your post`,
+          'Click to see details',
+          '/posts',
+          'account_box',
+          false
+        ).subscribe(
+          (result) => null,
+          (error) => console.error(error),
+          () => this.notificationService.newPostComment(nickname, postUserNickname).subscribe()
+        );
 
         const givenCommentsCount = this.user.givenComments + 1;
         this.subscriptions$.push(this.userService.editUserData(this.user._id, { givenComments: givenCommentsCount })

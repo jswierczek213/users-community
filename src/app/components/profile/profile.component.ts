@@ -3,11 +3,12 @@ import { UserService } from 'src/app/services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
-import { timeout, finalize, map } from 'rxjs/operators';
+import { timeout, finalize, map, delay } from 'rxjs/operators';
 import { ProfileCommentsService } from 'src/app/services/profile-comments.service';
 import { ProfileComment } from 'src/app/models/profile-comment';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SwPush } from '@angular/service-worker';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -152,7 +153,7 @@ export class ProfileComponent implements OnInit, OnChanges {
 
             this.notificationService.addNotification(
               taggedUser._id,
-              this.currentUser.nickname,
+              taggedUser.nickname,
               `${this.currentUser.nickname} tagged you in the comment`,
               'Click here to see details',
               url,
@@ -207,7 +208,7 @@ export class ProfileComponent implements OnInit, OnChanges {
             ).subscribe(
               (result) => null,
               (error) => console.error(error),
-              () => this.notificationService.newComment(this.currentUser.nickname, this.user.nickname).subscribe()
+              () => this.notificationService.newProfileComment(this.currentUser.nickname, this.user.nickname).subscribe()
             );
           }
         );
@@ -253,8 +254,13 @@ export class ProfileComponent implements OnInit, OnChanges {
     this.displayLoader = true;
     this.serverError = false;
 
-    this.userService.deleteUser(this.user._id, this.user.nickname)
-    .pipe(
+    const observables = forkJoin(
+      this.notificationService.deleteNotificationSubscriptions(this.user.nickname),
+      this.notificationService.deleteWebpushSubscriptions(this.user.nickname),
+      this.userService.deleteUser(this.user._id, this.user.nickname)
+    );
+
+    observables.pipe(
       finalize(() => this.displayLoader = false)
     )
     .subscribe(
@@ -275,7 +281,27 @@ export class ProfileComponent implements OnInit, OnChanges {
     .then(sub => this.notificationService.addPushSubscriber(sub, this.currentUser.nickname)
     .subscribe(
       (result: any) => result.message ? console.log(result.message) : null,
-      (error) => console.error(error)
+      (error) => console.error(error),
+      () => {
+        const url = '/notifications';
+        this.notificationService.addNotification(
+          this.user._id,
+          this.user.nickname,
+          'Notifications enabled',
+          'You successfully unabled web-push notifications on this device!',
+          url,
+          'info',
+          true
+        ).subscribe(
+          (result) => null,
+          (error) => console.error(error),
+          () => {
+            const title = 'Notifications enabled';
+            const description = 'You successfully unabled web-push notifications on this device!';
+            this.notificationService.sendInformativeNotification(this.user.nickname, title, description).subscribe();
+          }
+        );
+      }
     ))
     .catch(err => console.error('Could not subscribe to push notifications', err));
   }
@@ -283,6 +309,8 @@ export class ProfileComponent implements OnInit, OnChanges {
   notifyToAllUsers(description: string) {
     let allUsers: User[];
     let allUsersId: Array<string>;
+
+    let errorOccured = false;
 
     this.userService.getList().subscribe(
       (result) => allUsers = result,
@@ -299,14 +327,19 @@ export class ProfileComponent implements OnInit, OnChanges {
             'info',
             true
           )
+          .pipe(
+            timeout(10000)
+          )
           .subscribe(
             (result) => null,
-            (error) => console.error(error),
-            () => {
-              this.notificationService.notifyToAllUsers(description).subscribe();
-            }
+            (error) => { console.error(error); errorOccured = true; }
           );
         });
+
+        setTimeout(() => {
+          !errorOccured ? this.notificationService.notifyToAllUsers(description).subscribe() : console.log('Error');
+        }, 15000);
+
       }
     );
   }

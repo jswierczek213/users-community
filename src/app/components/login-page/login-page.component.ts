@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
 import { finalize, timeout } from 'rxjs/operators';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-login-page',
@@ -14,6 +15,7 @@ export class LoginPageComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
+    private notificationService: NotificationService,
     private router: Router
   ) { }
 
@@ -86,6 +88,18 @@ export class LoginPageComponent implements OnInit {
         this.errorRegistrationOccured = true;
         this.displayRegistrationErrors = true;
         console.error(error);
+      },
+      () => {
+        const user = this.userService.currentUserValue();
+        this.notificationService.addNotification(
+          user._id,
+          user.nickname,
+          'Hi there :)',
+          'Welcome into our awesome community! You can now take a look on unlocked functionality.',
+          '/notifications',
+          'info',
+          true
+        ).subscribe();
       }
     );
   }

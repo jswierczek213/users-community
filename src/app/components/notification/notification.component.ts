@@ -48,8 +48,6 @@ export class NotificationComponent implements OnInit {
 
     const unreadedNotifications = this.notifications.filter(notif => notif.unreaded === true);
     this.unreaded = unreadedNotifications.length;
-
-    this.notificationService.updateUnreadedCount(this.unreaded);
   }
 
   readOne(notifId: string, unreaded: boolean) {
@@ -62,7 +60,6 @@ export class NotificationComponent implements OnInit {
       (result) => null,
       (error) => console.error(error),
       () => {
-        this.notificationService.updateUnreadedCount(this.unreaded - 1);
         this.getNotifications();
       }
     );

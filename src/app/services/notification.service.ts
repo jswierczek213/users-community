@@ -16,13 +16,6 @@ export class NotificationService {
 
   basicUrl = 'https://users-community.herokuapp.com/api';
 
-  private unreadedCountSource = new BehaviorSubject(0);
-  unreadedCount = this.unreadedCountSource.asObservable();
-
-  updateUnreadedCount(count: number) {
-    this.unreadedCountSource.next(count);
-  }
-
   // Web push notifications below
 
   addPushSubscriber(sub, nickname) {
@@ -41,6 +34,15 @@ export class NotificationService {
     return this.http.post(`${this.basicUrl}/notification/all`, notificationData);
   }
 
+  sendInformativeNotification(targetNickname: string, title: string, description: string) {
+    const notificationData = {
+      targetNickname,
+      title,
+      description
+    };
+    return this.http.post(`${this.basicUrl}/notification/informative`, notificationData);
+  }
+
   tagged(nickname: string, targetNickname: string) {
     const notificationData = {
       whoTagged: nickname,
@@ -49,12 +51,24 @@ export class NotificationService {
     return this.http.post(`${this.basicUrl}/notification/tagged`, notificationData);
   }
 
-  newComment(whoPostedComment: string, targetNickname: string) {
+  newProfileComment(whoPostedComment: string, targetNickname: string) {
     const notificationData = {
       whoPostedComment,
       targetNickname
     };
-    return this.http.post(`${this.basicUrl}/notification/new-comment`, notificationData);
+    return this.http.post(`${this.basicUrl}/notification/new-profile-comment`, notificationData);
+  }
+
+  newPostComment(whoPostedComment: string, targetNickname: string) {
+    const notificationData = {
+      whoPostedComment,
+      targetNickname
+    };
+    return this.http.post(`${this.basicUrl}/notification/new-post-comment`, notificationData);
+  }
+
+  deleteWebpushSubscriptions(nickname: string) {
+    return this.http.delete(`${this.basicUrl}/notification/delete-subscriptions/${nickname}`);
   }
 
   // In-app notifications below
@@ -95,5 +109,9 @@ export class NotificationService {
 
   readAllNotifications(userId: string) {
     return this.http.patch(`${this.basicUrl}/notifications/user/${userId}`, { unreaded: false });
+  }
+
+  deleteNotificationSubscriptions(nickname: string) {
+    return this.http.delete(`${this.basicUrl}/notifications/delete-subscriptions/${nickname}`);
   }
 }

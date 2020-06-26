@@ -56,7 +56,7 @@
 
       <div class="comments-date-info">
         <div>
-          <button mat-icon-button (click)="toggleLike(post._id, i)">
+          <button mat-icon-button (click)="toggleLike(post._id, i, post.userId, post.nickname)">
             <mat-icon [class.liked]="isLiked(i)">thumb_up</mat-icon>
           </button>
           <span>({{ post.likes.length }})</span>
@@ -73,8 +73,8 @@
 
         <div class="add-comment-container" *ngIf="user">
           <input #comment type="text" placeholder="Your comment"
-          (keyup.enter)="addComment(post._id, user._id, comment.value, user.nickname, i); comment.value = ''" />
-          <button (click)="addComment(post._id, user._id, comment.value, user.nickname, i); comment.value = ''">Add</button>
+          (keyup.enter)="addComment(post._id, user._id, comment.value, user.nickname, i, post.userId, post.nickname); comment.value = ''" />
+          <button (click)="addComment(post._id, user._id, comment.value, user.nickname, i, post.userId, post.nickname); comment.value = ''">Add</button>
         </div>
 
         <section class="comment-list">
