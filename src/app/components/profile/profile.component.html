@@ -97,7 +97,8 @@
 
   <div class="notif-container" *ngIf="user.nickname === 'SAGU'">
     <h3>New features description</h3>
-    <input #description type="text" placeholder="Send something.." />
+    <input #description type="text" placeholder="Send something.."
+    (keyup.enter)="notifyToAllUsers(description.value); description.value = ''" />
     <button (click)="notifyToAllUsers(description.value); description.value = ''">Send</button>
   </div>
 
@@ -121,7 +122,7 @@
     </div>
     <div class="form-field">
       <label>Description</label>
-      <textarea maxlength="600" formControlName="description" placeholder="Empty...">
+      <textarea maxlength="1000" formControlName="description" placeholder="Empty...">
       </textarea>
     </div>
     <div class="submit-container">

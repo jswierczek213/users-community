@@ -49,8 +49,8 @@ export class ProfileComponent implements OnInit, OnChanges {
 
   buildEditForm() {
     this.editForm = this.fb.group({
-      introduction: [this.user.introduction, Validators.maxLength(100)],
-      description: [this.user.description, Validators.maxLength(600)]
+      introduction: [this.user.introduction, [ Validators.maxLength(100) ]],
+      description: [this.user.description, [ Validators.maxLength(1000) ]]
     });
   }
 
@@ -135,7 +135,7 @@ export class ProfileComponent implements OnInit, OnChanges {
         )
         .subscribe(
           (result: User[]) => {
-            if (result.length === 1 && result[0]._id !== this.currentUser._id) {
+            if (result.length === 1 && (result[0]._id !== this.currentUser._id)) {
               userExists = true;
               taggedUser = result[0];
             } else {
@@ -194,22 +194,24 @@ export class ProfileComponent implements OnInit, OnChanges {
             localStorage.setItem('user', JSON.stringify(this.currentUser));
             this.userService.updateUserValue();
 
-            // Send notification about new comment
-            const url = `/user/${this.user._id}`;
+            if (this.user._id !== this.currentUser._id) {
+              // Send notification about new comment
+              const url = `/user/${this.user._id}`;
 
-            this.notificationService.addNotification(
-              this.user._id,
-              this.currentUser.nickname,
-              'New comment on your profile',
-              `${this.currentUser.nickname} posted a comment!`,
-              url,
-              'account_box',
-              false
-            ).subscribe(
-              (result) => null,
-              (error) => console.error(error),
-              () => this.notificationService.newProfileComment(this.currentUser.nickname, this.user.nickname).subscribe()
-            );
+              this.notificationService.addNotification(
+                this.user._id,
+                this.currentUser.nickname,
+                'New comment on your profile',
+                `${this.currentUser.nickname} posted a comment!`,
+                url,
+                'account_box',
+                false
+              ).subscribe(
+                (result) => null,
+                (error) => console.error(error),
+                () => this.notificationService.newProfileComment(this.currentUser.nickname, this.user.nickname).subscribe()
+              );
+            }
           }
         );
       }

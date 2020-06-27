@@ -45,7 +45,7 @@ export class LoginPageComponent implements OnInit {
       nickname: ['', [ Validators.required, Validators.minLength(3), Validators.maxLength(15) ]],
       password: ['', [ Validators.required, Validators.minLength(5) ]],
       confirmPassword: ['', [ Validators.required ]],
-      introduction: ['']
+      introduction: ['', [Validators.maxLength(100)]]
     });
   }
 

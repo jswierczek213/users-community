@@ -267,7 +267,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         )
         .subscribe(
           (result: User[]) => {
-            if (result.length === 1 && result[0]._id !== this.user._id) {
+            if (result.length === 1 && (result[0]._id !== postUserId)) {
               userExists = true;
               taggedUser = result[0];
             } else {
@@ -315,19 +315,22 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.loadComments(postId, index);
         this.displayNotify('Comment has been added');
 
-        this.notificationService.addNotification(
-          postUserId,
-          postUserNickname,
-          `${nickname} commented your post`,
-          'Click to see details',
-          '/posts',
-          'account_box',
-          false
-        ).subscribe(
-          (result) => null,
-          (error) => console.error(error),
-          () => this.notificationService.newPostComment(nickname, postUserNickname).subscribe()
-        );
+        if (postUserId !== this.user._id) {
+          this.notificationService.addNotification(
+            postUserId,
+            postUserNickname,
+            `${nickname} commented your post`,
+            'Click to see details',
+            '/posts',
+            'account_box',
+            false
+          ).subscribe(
+            (result) => null,
+            (error) => console.error(error),
+            () => this.notificationService.newPostComment(nickname, postUserNickname).subscribe()
+          );
+        }
+
 
         const givenCommentsCount = this.user.givenComments + 1;
         this.subscriptions$.push(this.userService.editUserData(this.user._id, { givenComments: givenCommentsCount })
