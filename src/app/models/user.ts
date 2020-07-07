@@ -3,6 +3,7 @@ export interface User {
   nickname: string;
   introduction: string;
   description: string;
+  image: string;
   givenLikes: number;
   givenComments: number;
   createDate: string;

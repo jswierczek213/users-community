@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         timeout(10000)
       )
       .subscribe(
-        (result) => this.user = result,
+        (result: any) => this.user = result,
         (error) => console.error(error),
         () => {
           localStorage.setItem('user', JSON.stringify(this.user));

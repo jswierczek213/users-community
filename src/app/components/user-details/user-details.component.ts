@@ -49,7 +49,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       })
     )
     .subscribe(
-      (data) => this.user = data,
+      (data) => {
+        this.user = data;
+      },
       (error) => {
         if (error instanceof TimeoutError) {
           console.error(error.message);

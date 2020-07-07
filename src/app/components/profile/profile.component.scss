@@ -28,7 +28,6 @@
     .image-placeholder {
       width: fit-content;
       height: auto;
-      padding: 0.75em;
       border-radius: 50%;
       background-color: $white;
 
@@ -40,6 +39,15 @@
         height: auto;
         color: $black;
       }
+
+      img {
+        display: block;
+        border-radius: 50%;
+      }
+    }
+
+    .with-padding {
+      padding: 0.75em;
     }
   }
 
@@ -333,7 +341,7 @@
 
   .notif-container {
     padding: 1em 0;
-    
+
     h3 {
       margin: 0 0 7px 0;
     }
@@ -408,6 +416,27 @@
       height: 150px;
       line-height: 1.4em;
     }
+
+    .image-input {
+      background-color: inherit;
+      width: fit-content;
+      height: auto;
+      cursor: pointer;
+      border: none;
+    }
+
+    image-cropper {
+      margin: 15px 0;
+    }
+
+    .cropped-image-container {
+      text-align: center;
+
+      .cropped-image-preview {
+        border-radius: 50%;
+      }
+    }
+
   }
 
   .submit-container {

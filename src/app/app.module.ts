@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -43,6 +44,7 @@ import { NotificationComponent } from './components/notification/notification.co
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ImageCropperModule,
     MaterialModule,
     ReactiveFormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })

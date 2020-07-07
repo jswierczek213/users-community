@@ -21,6 +21,10 @@
     <!-- User card -->
     <div class="item" *ngFor="let user of users" >
       <div class="nickname">
+        <div class="image-placeholder" *ngIf="user.image === 'null'">
+          <mat-icon>person</mat-icon>
+        </div>
+        <img [src]="user.image" *ngIf="user.image !== 'null'" />
         <h2
             [routerLink]="'/user/' + user._id"
             [title]="user.nickname + ' - profile'" > {{ user.nickname }} </h2>

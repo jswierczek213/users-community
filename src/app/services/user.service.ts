@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +25,26 @@ export class UserService {
 
   // Get list of all registered users
   getList(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.basicUrl}/users`);
+    return this.http.get<User[]>(`${this.basicUrl}/users`)
+    .pipe(
+      map((users: User[]) => {
+        return users.map((user: any) => {
+          const image = (user.image !== 'null') ? 'data:image/png;base64,' + user.image.buffer.toString('base64') : 'null';
+          return ({ ...user, image });
+        });
+      })
+    );
   }
 
   // Get data of specified user
   getUserById(id: string): Observable<User> {
-    return this.http.get<User>(`${this.basicUrl}/users/${id}`);
+    return this.http.get<User>(`${this.basicUrl}/users/${id}`)
+    .pipe(
+      map((user: any) => {
+        const image = (user.image !== 'null') ? 'data:image/png;base64,' + user.image.buffer.toString('base64') : 'null';
+        return ({ ...user, image });
+      })
+    );
   }
 
   // Patch user data
@@ -51,7 +66,13 @@ export class UserService {
   // Login an old user
   login(nickname: string, password: string) {
     const data = { nickname, password };
-    return this.http.post(`${this.basicUrl}/login`, data);
+    return this.http.post(`${this.basicUrl}/login`, data)
+    .pipe(
+      map((user: any) => {
+        const image = (user.image !== 'null') ? 'data:image/png;base64,' + user.image.buffer.toString('base64') : 'null';
+        return ({ ...user, image });
+      })
+    );
   }
 
   // Logout current user

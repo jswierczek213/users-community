@@ -4,8 +4,9 @@
 <!-- Profile info container -->
 <div class="container">
   <div class="grid-item image-container">
-    <div class="image-placeholder">
-      <mat-icon>person</mat-icon>
+    <div class="image-placeholder" [class.with-padding]="user.image === 'null'">
+      <mat-icon *ngIf="user.image === 'null'">person</mat-icon>
+      <img [src]="user.image" alt="Profile picture" *ngIf="user.image !== 'null'" />
     </div>
   </div>
   <div class="grid-item nickname-introduction-container">
@@ -113,7 +114,30 @@
     </ul>
   </div>
 
-  <form [formGroup]="editForm" spellcheck="false" novalidate (submit)="submit()">
+  <form [formGroup]="editForm" spellcheck="false" novalidate (submit)="submit()" enctype="multipart/form-data">
+    <div class="form-field">
+      <label>Profile image</label>
+      <small>Choose your avatar</small>
+
+      <input type="file" (change)="changeImageFile($event)" accept="image/png, image/jpg, image/jpeg" formControlName="image" class="image-input" />
+
+      <image-cropper
+      *ngIf="imageSelected"
+      [imageFile]="imageFile"
+      [cropperMinWidth]="100"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="1/1"
+      [resizeToWidth]="100"
+      [roundCropper]="true"
+      format="png"
+      (imageCropped)="imageCropped($event)"></image-cropper>
+
+      <div class="cropped-image-container" *ngIf="imageSelected">
+        <h3>New image preview</h3>
+        <img [src]="croppedImage" class="cropped-image-preview" />
+      </div>
+
+    </div>
     <div class="form-field">
       <label>Quick introduction</label>
       <small>Say something about you in a few words</small>

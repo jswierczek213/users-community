@@ -9,6 +9,7 @@ import { ProfileComment } from 'src/app/models/profile-comment';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SwPush } from '@angular/service-worker';
 import { forkJoin } from 'rxjs';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-profile',
@@ -32,12 +33,17 @@ export class ProfileComponent implements OnInit, OnChanges {
   comments: ProfileComment[] = [];
   currentUser: User;
 
+  croppedImage: any = '';
+  imageFile: File;
+
   editForm: FormGroup;
   displayEditForm = false;
   displayLoader = false;
   displayConfirm = false;
   displayErrors = false;
   serverError = false;
+
+  imageSelected = false;
 
   ngOnInit() {
     this.buildEditForm();
@@ -49,12 +55,16 @@ export class ProfileComponent implements OnInit, OnChanges {
 
   buildEditForm() {
     this.editForm = this.fb.group({
+      image: [],
       introduction: [this.user.introduction, [ Validators.maxLength(100) ]],
       description: [this.user.description, [ Validators.maxLength(1000) ]]
     });
   }
 
   toggleEditForm() {
+    if (this.displayEditForm) {
+      this.resetEditForm();
+    }
     this.displayEditForm = !this.displayEditForm;
   }
 
@@ -78,9 +88,49 @@ export class ProfileComponent implements OnInit, OnChanges {
     );
   }
 
+  changeImageFile(event: any) {
+    this.imageFile = event.target.files[0];
+    this.imageSelected = true;
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+  }
+
+  resetEditForm() {
+    this.croppedImage = '';
+    this.imageFile = undefined;
+    this.imageSelected = false;
+    this.editForm.value.image = null;
+    this.editForm.controls.image.reset();
+  }
+
+  base64ToBlob(base64: string) {
+    const parts = base64.split(';base64,');
+    const imageType = parts[0].split(':')[1];
+    const decodedData = window.atob(parts[1]);
+    const uInt8Array = new Uint8Array(decodedData.length);
+
+    for (let i = 0; i < decodedData.length; i++) {
+      uInt8Array[i] = decodedData.charCodeAt(i);
+    }
+
+    return new Blob([uInt8Array], { type: imageType });
+  }
+
   submit() {
     this.displayErrors = false;
     this.serverError = false;
+
+    let imageBlob: Blob;
+
+    if (this.imageSelected) {
+      imageBlob = this.base64ToBlob(this.croppedImage);
+    }
+
+    if (!this.imageSelected && this.user.image !== 'null') {
+      imageBlob = this.base64ToBlob(this.user.image);
+    }
 
     if (this.editForm.invalid) {
       this.displayErrors = true;
@@ -89,12 +139,21 @@ export class ProfileComponent implements OnInit, OnChanges {
 
     this.displayLoader = true;
 
+    const formData = new FormData();
+    if (!this.imageSelected && this.user.image === 'null') {
+      formData.append('image', this.user.image);
+    } else {
+      formData.append('image', imageBlob, `${this.user.nickname}.png`);
+    }
+    formData.append('introduction', this.editForm.value.introduction.trim());
+    formData.append('description', this.editForm.value.description.replace(/\n(?=\n)/g, '').trim());
+
     const values = {
-      introduction: this.editForm.value.introduction.trim(),
-      description: this.editForm.value.description.replace(/\n(?=\n)/g, '').trim()
+      introduction: formData.get('introduction').toString(),
+      description: formData.get('description').toString()
     };
 
-    this.userService.editUserData(this.user._id, values)
+    this.userService.editUserData(this.user._id, formData)
     .pipe(
       timeout(10000),
       finalize(() => this.displayLoader = false)
@@ -102,13 +161,29 @@ export class ProfileComponent implements OnInit, OnChanges {
     .subscribe(
       (data) => {
         // Update local user data
-        this.user.description = values.description;
-        this.user.introduction = values.introduction;
-        localStorage.setItem('user', JSON.stringify(this.user));
-        this.userService.updateUserValue();
+        if ((this.imageSelected) || (!this.imageSelected && this.user.image !== 'null')) {
+          const fileReader = new FileReader();
+          fileReader.readAsDataURL(imageBlob);
+          fileReader.onloadend = () => {
+            this.user.image = fileReader.result.toString();
+            this.user.description = values.description;
+            this.user.introduction = values.introduction;
+            localStorage.setItem('user', JSON.stringify(this.user));
+            this.userService.updateUserValue();
+          };
+        } else {
+          this.user.image = 'null';
+          this.user.description = values.description;
+          this.user.introduction = values.introduction;
+          localStorage.setItem('user', JSON.stringify(this.user));
+          this.userService.updateUserValue();
+        }
       },
       (error) => this.serverError = true,
-      () => this.toggleEditForm()
+      () => {
+        this.toggleEditForm();
+        this.resetEditForm();
+      }
     );
   }
 
