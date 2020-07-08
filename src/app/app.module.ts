@@ -24,6 +24,7 @@ import { ProfileCommentsService } from './services/profile-comments.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { NotificationComponent } from './components/notification/notification.component';
+import { ProfileImageComponent } from './components/profile-image/profile-image.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { NotificationComponent } from './components/notification/notification.co
     LoginPageComponent,
     MyProfileComponent,
     ProfileComponent,
-    NotificationComponent
+    NotificationComponent,
+    ProfileImageComponent
   ],
   imports: [
     BrowserModule,

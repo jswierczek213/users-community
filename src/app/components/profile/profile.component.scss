@@ -24,31 +24,6 @@
     @media screen and (max-width: 600px) {
       justify-self: center;
     }
-
-    .image-placeholder {
-      width: fit-content;
-      height: auto;
-      border-radius: 50%;
-      background-color: $white;
-
-
-      .mat-icon {
-        display: block;
-        font-size: 60px;
-        width: fit-content;
-        height: auto;
-        color: $black;
-      }
-
-      img {
-        display: block;
-        border-radius: 50%;
-      }
-    }
-
-    .with-padding {
-      padding: 0.75em;
-    }
   }
 
   .nickname-introduction-container {
@@ -431,10 +406,6 @@
 
     .cropped-image-container {
       text-align: center;
-
-      .cropped-image-preview {
-        border-radius: 50%;
-      }
     }
 
   }

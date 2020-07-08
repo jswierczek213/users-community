@@ -4,10 +4,7 @@
 <!-- Profile info container -->
 <div class="container">
   <div class="grid-item image-container">
-    <div class="image-placeholder" [class.with-padding]="user.image === 'null'">
-      <mat-icon *ngIf="user.image === 'null'">person</mat-icon>
-      <img [src]="user.image" alt="Profile picture" *ngIf="user.image !== 'null'" />
-    </div>
+    <app-profile-image [imageAsBase64]="user.image" imageSize="100px"></app-profile-image>
   </div>
   <div class="grid-item nickname-introduction-container">
     <h1 class="nickname"> {{ user.nickname }} </h1>
@@ -127,14 +124,13 @@
       [cropperMinWidth]="100"
       [maintainAspectRatio]="true"
       [aspectRatio]="1/1"
-      [resizeToWidth]="100"
       [roundCropper]="true"
       format="png"
       (imageCropped)="imageCropped($event)"></image-cropper>
 
       <div class="cropped-image-container" *ngIf="imageSelected">
         <h3>New image preview</h3>
-        <img [src]="croppedImage" class="cropped-image-preview" />
+        <app-profile-image [imageAsBase64]="croppedImage" imageSize="100px"></app-profile-image>
       </div>
 
     </div>

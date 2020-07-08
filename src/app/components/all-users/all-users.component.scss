@@ -70,30 +70,8 @@ main {
         align-items: center;
         padding: 0 0 0.5em 0;
 
-        img {
-          width: 75px;
-          height: 75px;
-          border-radius: 50%;
+        app-profile-image {
           margin-right: 15px;
-        }
-
-        .image-placeholder {
-          display: flex;
-          width: 75px;
-          height: 75px;
-          border-radius: 50%;
-          background-color: $white;
-          margin-right: 15px;
-          flex-flow: row nowrap;
-          justify-content: space-around;
-          align-items: center;
-
-          .mat-icon {
-            font-size: 60px;
-            width: fit-content;
-            height: auto;
-            color: $black;
-          }
         }
 
         h2 {

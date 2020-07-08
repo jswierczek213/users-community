@@ -1,0 +1,21 @@
+@import '../../../assets/styles/variables.scss';
+
+.profile-image {
+  border-radius: 50%;
+}
+
+.default-image-placeholder {
+  border-radius: 50%;
+  background-color: $white;
+  padding: 0.75em;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+
+  .mat-icon {
+    width: fit-content;
+    height: auto;
+    color: $black;
+  }
+}

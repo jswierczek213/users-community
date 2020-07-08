@@ -1,0 +1,12 @@
+<!-- Profile image -->
+<img
+*ngIf="imageAsBase64 !== 'null'; else displayDefaultImage"
+[src]="imageAsBase64" class="profile-image"
+[style.width]="imageSize" [style.height]="imageSize" />
+
+<!-- Display if image is deafult -->
+<ng-template #displayDefaultImage>
+  <div class="default-image-placeholder" [style.width]="imageSize" [style.height]="imageSize">
+    <mat-icon [style.font-size]="fontSize">person</mat-icon>
+  </div>
+</ng-template>
