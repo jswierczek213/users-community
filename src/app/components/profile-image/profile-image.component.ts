@@ -14,7 +14,7 @@ export class ProfileImageComponent implements OnInit {
   fontSize: string;
 
   ngOnInit(): void {
-    let imageSizeNumber = window.parseInt(this.imageSize.split('px')[0], 10);
+    let imageSizeNumber = parseInt(this.imageSize.split('px')[0], 10);
     imageSizeNumber = imageSizeNumber * 0.6;
     this.fontSize = imageSizeNumber.toString() + 'px';
   }
