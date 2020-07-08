@@ -139,6 +139,12 @@
     }
   }
 
+  .center {
+    @media screen and (max-width: 600px) {
+      grid-column: 2/3;
+    }
+  }
+
   .description-container {
     grid-column: 2/3;
     overflow: hidden;

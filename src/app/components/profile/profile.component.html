@@ -4,7 +4,7 @@
 <!-- Profile info container -->
 <div class="container">
   <div class="grid-item image-container">
-    <app-profile-image [imageAsBase64]="user.image" imageSize="100px"></app-profile-image>
+    <app-profile-image [imageAsBase64]="user.image" imageBorderColor="green" imageSize="90px"></app-profile-image>
   </div>
   <div class="grid-item nickname-introduction-container">
     <h1 class="nickname"> {{ user.nickname }} </h1>
@@ -30,7 +30,7 @@
       </button>
     </div>
   </div>
-  <div class="grid-item statistics-container">
+  <div class="grid-item statistics-container" [class.center]="!myProfile">
     <h3>User statistics</h3>
     <div class="statistic">
       <span class="type">Likes</span>
@@ -130,7 +130,7 @@
 
       <div class="cropped-image-container" *ngIf="imageSelected">
         <h3>New image preview</h3>
-        <app-profile-image [imageAsBase64]="croppedImage" imageSize="100px"></app-profile-image>
+        <app-profile-image [imageAsBase64]="croppedImage" imageBorderColor="green" imageSize="90px"></app-profile-image>
       </div>
 
     </div>

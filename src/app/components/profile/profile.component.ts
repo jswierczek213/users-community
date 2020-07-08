@@ -78,7 +78,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     this.profileCommentsService.getComments(this.user.nickname)
     .pipe(
       map((x: any) => x.comments),
-      timeout(10000),
+      timeout(15000),
       finalize(() => this.displayLoader = false)
     )
     .subscribe(
@@ -155,7 +155,7 @@ export class ProfileComponent implements OnInit, OnChanges {
 
     this.userService.editUserData(this.user._id, formData)
     .pipe(
-      timeout(10000),
+      timeout(20000),
       finalize(() => this.displayLoader = false)
     )
     .subscribe(
@@ -258,7 +258,7 @@ export class ProfileComponent implements OnInit, OnChanges {
         const givenCommentsCount = this.currentUser.givenComments + 1;
         this.userService.editUserData(this.currentUser._id, { givenComments: givenCommentsCount })
         .pipe(
-          timeout(10000)
+          timeout(20000)
         )
         .subscribe(
           (result) => null,

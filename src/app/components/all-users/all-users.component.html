@@ -21,7 +21,12 @@
     <!-- User card -->
     <div class="item" *ngFor="let user of users" >
       <div class="nickname">
-        <app-profile-image [imageAsBase64]="user.image" imageSize="75px"></app-profile-image>
+        <app-profile-image
+        [imageAsBase64]="user.image"
+        imageBorderColor="yellow"
+        imageSize="75px"
+        [routerLink]="'/user/' + user._id"
+        [displayCursor]="true"></app-profile-image>
         <h2
             [routerLink]="'/user/' + user._id"
             [title]="user.nickname + ' - profile'" > {{ user.nickname }} </h2>

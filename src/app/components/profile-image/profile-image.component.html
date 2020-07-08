@@ -2,11 +2,16 @@
 <img
 *ngIf="imageAsBase64 !== 'null'; else displayDefaultImage"
 [src]="imageAsBase64" class="profile-image"
-[style.width]="imageSize" [style.height]="imageSize" />
+[style.width]="imageSize" [style.height]="imageSize"
+[ngClass]="{'green': imageBorderColor === 'green', 'yellow': imageBorderColor === 'yellow', 'cursor': displayCursor}" />
 
 <!-- Display if image is deafult -->
 <ng-template #displayDefaultImage>
-  <div class="default-image-placeholder" [style.width]="imageSize" [style.height]="imageSize">
+  <div
+  class="default-image-placeholder"
+  [style.width]="imageSize"
+  [style.height]="imageSize"
+  [class.cursor]="displayCursor">
     <mat-icon [style.font-size]="fontSize">person</mat-icon>
   </div>
 </ng-template>

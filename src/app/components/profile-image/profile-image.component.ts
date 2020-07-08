@@ -10,6 +10,8 @@ export class ProfileImageComponent implements OnInit {
   constructor() { }
   @Input() imageAsBase64: string;
   @Input() imageSize = '75px';
+  @Input() imageBorderColor = 'yellow';
+  @Input() displayCursor = false;
 
   fontSize: string;
 

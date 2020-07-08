@@ -37,7 +37,6 @@ export class AllUsersComponent implements OnInit, OnDestroy {
       timeout(10000),
       finalize(() => {
         this.displayLoader = false;
-        console.log(this.users);
 
         if (this.users.length === 0) {
           this.somethingWrong = true;
