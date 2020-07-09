@@ -113,7 +113,7 @@
     }
 
     h3 {
-      text-align: center;
+      text-align: left;
       margin: 0 0 10px 0;
     }
 
@@ -129,7 +129,7 @@
 
       .type {
         color: $grey;
-        text-align: center;
+        text-align: left;
       }
 
       .value {
@@ -243,8 +243,20 @@
       border-bottom: 1px solid $grey;
       padding: 5px 0;
 
-      span, div {
+      span, a {
         display: inline-block;
+      }
+
+      div {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items:center;
+
+        a {
+          color: $green;
+          cursor: pointer;
+        }
       }
 
       .nickname {

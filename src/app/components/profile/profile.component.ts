@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -29,6 +29,8 @@ export class ProfileComponent implements OnInit, OnChanges {
 
   @Input() user: User;
   @Input() myProfile: boolean;
+
+  @ViewChild('comment', { static: true }) comment: ElementRef;
 
   comments: ProfileComment[] = [];
   currentUser: User;
@@ -88,6 +90,13 @@ export class ProfileComponent implements OnInit, OnChanges {
       (error) => console.error(error),
       () => (x: ProfileComment, y: ProfileComment) => new Date(y.date).getTime() - new Date(x.date).getTime()
     );
+  }
+
+  reply(nickname: string) {
+    const newInputValue = `@${nickname} `;
+
+    this.comment.nativeElement.value = newInputValue;
+    this.comment.nativeElement.focus();
   }
 
   setOption(num: number) {

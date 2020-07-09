@@ -88,24 +88,23 @@ main {
         }
       }
 
-      .introduction {
-        padding: 10px 0 10px 5px;
+      .grid-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: minmax(40px, auto) minmax(40px, auto);
+        gap: 0.65em;
+        padding-top: 15px;
 
-        p {
-          text-align: left;
-          margin: 0;
-          line-height: 1.3em;
-          font-weight: 300;
+        .grid-item {
+          p {
+            text-align: left;
+            margin: 0;
+            line-height: 1.3em;
+            font-weight: 300;
+          }
         }
       }
 
-      .create-date {
-        padding: 10px 0 10px 5px;
-
-        span {
-          font-weight: 300;
-        }
-      }
     }
   }
 

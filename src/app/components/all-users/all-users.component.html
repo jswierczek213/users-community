@@ -31,15 +31,25 @@
             [routerLink]="'/user/' + user._id"
             [title]="user.nickname + ' - profile'" > {{ user.nickname }} </h2>
       </div>
-      <div class="introduction">
-        <small>Quick introduction</small>
-        <p>
-          {{ user.introduction ? user.introduction : 'This user have nothing to say...' }}
-        </p>
-      </div>
-      <div class="create-date">
-        <small>Date of registration</small>
-        <span> {{ user.createDate | date:'dd-MM-yyyy' }} </span>
+      <div class="grid-layout">
+        <div class="grid-item">
+          <small>Quick introduction</small>
+          <p>
+            {{ user.introduction ? user.introduction : 'This user have nothing to say...' }}
+          </p>
+        </div>
+        <div class="grid-item">
+          <small>Date of registration</small>
+          <p> {{ user.createDate | date:'dd-MM-yyyy' }} </p>
+        </div>
+        <div class="grid-item">
+          <small>Given likes</small>
+          <p> {{ user.givenLikes }} </p>
+        </div>
+        <div class="grid-item">
+          <small>Given comments</small>
+          <p> {{ user.givenComments }} </p>
+        </div>
       </div>
     </div>
 

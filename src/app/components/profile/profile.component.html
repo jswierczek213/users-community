@@ -64,7 +64,13 @@
     <!-- Comment container -->
     <div class="comment" *ngFor="let comment of comments" >
       <div class="nickname-date-container">
-        <span class="nickname" [routerLink]="'/user/' + comment.userId"> {{ comment.nickname }} </span>
+        <div>
+          <span class="nickname" [routerLink]="'/user/' + comment.userId"> {{ comment.nickname }} </span>
+          <a
+          *ngIf="currentUser.nickname !== comment.nickname"
+          (click)="reply(comment.nickname)"
+          style="margin-left: 10px">reply</a>
+        </div>
         <div>
           <span class="delete"
           (click)="deleteComment(comment._id)"
@@ -119,7 +125,7 @@
       <div class="options-container">
         <a class="option" [class.selected]="!displayFileInput && !deleteImage" (click)="setOption(1)">Don't change image</a>
         <a class="option" [class.selected]="displayFileInput" (click)="setOption(2)">Choose new image</a>
-        <a class="option" [class.selected]="deleteImage" (click)="setOption(3)">Delete Image</a>
+        <a class="option" [class.selected]="deleteImage" (click)="setOption(3)">Delete image</a>
       </div>
 
       <input type="file" (change)="changeImageFile($event)" accept="image/png, image/jpg, image/jpeg" formControlName="image" class="image-input" *ngIf="displayFileInput" />
