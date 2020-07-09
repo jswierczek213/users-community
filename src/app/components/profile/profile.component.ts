@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -44,6 +44,8 @@ export class ProfileComponent implements OnInit, OnChanges {
   serverError = false;
 
   imageSelected = false;
+  displayFileInput = false;
+  deleteImage = false;
 
   ngOnInit() {
     this.buildEditForm();
@@ -88,6 +90,25 @@ export class ProfileComponent implements OnInit, OnChanges {
     );
   }
 
+  setOption(num: number) {
+    if (num === 1) {
+      this.displayFileInput = false;
+      this.deleteImage = false;
+      this.resetEditForm();
+    }
+
+    if (num === 2) {
+      this.displayFileInput = true;
+      this.deleteImage = false;
+    }
+
+    if (num === 3) {
+      this.deleteImage = true;
+      this.displayFileInput = false;
+      this.resetEditForm();
+    }
+  }
+
   changeImageFile(event: any) {
     this.imageFile = event.target.files[0];
     this.imageSelected = true;
@@ -103,6 +124,35 @@ export class ProfileComponent implements OnInit, OnChanges {
     this.imageSelected = false;
     this.editForm.value.image = null;
     this.editForm.controls.image.reset();
+  }
+
+  resizeImage(base64: string) {
+    const img = document.createElement('img');
+    img.src = base64;
+
+    const canvas = document.createElement('canvas');
+
+    let ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+
+    const maxWidth = 100;
+    const maxHeight = 100;
+
+    let width = img.width;
+    let height = img.height;
+
+    if ((width > maxWidth) || (height > maxHeight)) {
+      width = maxWidth;
+      height = maxHeight;
+    }
+
+    canvas.width = width;
+    canvas.height = height;
+
+    ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, width, height);
+
+    return canvas.toDataURL();
   }
 
   base64ToBlob(base64: string) {
@@ -125,7 +175,8 @@ export class ProfileComponent implements OnInit, OnChanges {
     let imageBlob: Blob;
 
     if (this.imageSelected) {
-      imageBlob = this.base64ToBlob(this.croppedImage);
+      const resizedImage = this.resizeImage(this.croppedImage);
+      imageBlob = this.base64ToBlob(resizedImage);
     }
 
     if (!this.imageSelected && this.user.image !== 'null') {
@@ -142,6 +193,8 @@ export class ProfileComponent implements OnInit, OnChanges {
     const formData = new FormData();
     if (!this.imageSelected && this.user.image === 'null') {
       formData.append('image', this.user.image);
+    } else if (this.deleteImage) {
+      formData.append('image', 'null');
     } else {
       formData.append('image', imageBlob, `${this.user.nickname}.png`);
     }
@@ -161,7 +214,13 @@ export class ProfileComponent implements OnInit, OnChanges {
     .subscribe(
       (data) => {
         // Update local user data
-        if ((this.imageSelected) || (!this.imageSelected && this.user.image !== 'null')) {
+        if (this.deleteImage) {
+          this.user.image = 'null';
+          this.user.description = values.description;
+          this.user.introduction = values.introduction;
+          localStorage.setItem('user', JSON.stringify(this.user));
+          this.userService.updateUserValue();
+        } else if ((this.imageSelected) || (!this.imageSelected && this.user.image !== 'null')) {
           const fileReader = new FileReader();
           fileReader.readAsDataURL(imageBlob);
           fileReader.onloadend = () => {
@@ -183,6 +242,8 @@ export class ProfileComponent implements OnInit, OnChanges {
       () => {
         this.toggleEditForm();
         this.resetEditForm();
+        this.deleteImage = false;
+        this.displayFileInput = false;
       }
     );
   }

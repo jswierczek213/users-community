@@ -116,10 +116,16 @@
       <label>Profile image</label>
       <small>Choose your avatar</small>
 
-      <input type="file" (change)="changeImageFile($event)" accept="image/png, image/jpg, image/jpeg" formControlName="image" class="image-input" />
+      <div class="options-container">
+        <a class="option" [class.selected]="!displayFileInput && !deleteImage" (click)="setOption(1)">Don't change image</a>
+        <a class="option" [class.selected]="displayFileInput" (click)="setOption(2)">Choose new image</a>
+        <a class="option" [class.selected]="deleteImage" (click)="setOption(3)">Delete Image</a>
+      </div>
+
+      <input type="file" (change)="changeImageFile($event)" accept="image/png, image/jpg, image/jpeg" formControlName="image" class="image-input" *ngIf="displayFileInput" />
 
       <image-cropper
-      *ngIf="imageSelected"
+      *ngIf="imageSelected && displayFileInput"
       [imageFile]="imageFile"
       [cropperMinWidth]="100"
       [maintainAspectRatio]="true"
@@ -128,7 +134,7 @@
       format="png"
       (imageCropped)="imageCropped($event)"></image-cropper>
 
-      <div class="cropped-image-container" *ngIf="imageSelected">
+      <div class="cropped-image-container" *ngIf="imageSelected && displayFileInput">
         <h3>New image preview</h3>
         <app-profile-image [imageAsBase64]="croppedImage" imageBorderColor="green" imageSize="90px"></app-profile-image>
       </div>

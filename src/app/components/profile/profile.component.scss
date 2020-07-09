@@ -398,6 +398,33 @@
       line-height: 1.4em;
     }
 
+    .options-container {
+      width: 100%;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-around;
+      align-items: center;
+      margin: 0.75em 0;
+
+      .option {
+        min-width: 80px;
+        display: inline-block;
+        cursor: pointer;
+        padding: 0.75em;
+        color: $black;
+        font-weight: 400;
+        background-color: $green;
+        text-decoration: none;
+        outline: none;
+        margin: 5px;
+      }
+
+      .selected {
+        background-color: $hover;
+      }
+
+    }
+
     .image-input {
       background-color: inherit;
       width: fit-content;
