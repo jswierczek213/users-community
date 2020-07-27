@@ -18,10 +18,12 @@ export class AllUsersComponent implements OnInit, OnDestroy {
   currentUser: User;
 
   users: User[] = [];
+
+  currentSortOption: string;
+  
   displayLoader = false;
   somethingWrong = false;
 
-  currentSortOption: string;
 
   ngOnInit() {
     this.subscriptions$.push(this.getAllUsers());

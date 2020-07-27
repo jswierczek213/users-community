@@ -8,6 +8,7 @@ export class ProfileCommentsService {
 
   constructor(private http: HttpClient) { }
 
+  // REST API server
   basicUrl = 'https://users-community.herokuapp.com/api';
 
   // Get comment from user's profile

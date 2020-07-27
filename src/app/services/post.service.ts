@@ -12,6 +12,7 @@ export class PostService {
     private http: HttpClient
   ) {}
 
+  // REST API server
   basicUrl = 'https://users-community.herokuapp.com/api';
 
   // Get all posts

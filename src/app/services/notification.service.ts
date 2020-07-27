@@ -14,6 +14,7 @@ export class NotificationService {
 
   readonly VAPID_PUBLIC_KEY = 'BNbQMdQycLAmbv7JKeP171m-7AFoVeW2cyJLgKz1wEgftslM62thZy62vbP_jQJ7sW8fr5G8oMjot2XMMYgrdMQ';
 
+  // REST API server
   basicUrl = 'https://users-community.herokuapp.com/api';
 
   // Web push notifications below

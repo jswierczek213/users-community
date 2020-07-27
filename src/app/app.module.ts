@@ -11,7 +11,6 @@ import { UserService } from './services/user.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material.module';
 import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
 import { AllUsersComponent } from './components/all-users/all-users.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoaderComponent } from './components/loader/loader.component';
@@ -30,7 +29,6 @@ import { ProfileImageComponent } from './components/profile-image/profile-image.
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent,
     AllUsersComponent,
     HomeComponent,
     LoaderComponent,
